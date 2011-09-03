@@ -1,0 +1,70 @@
+builddir = @builddir@
+top_builddir = @top_builddir@
+srcdir = @srcdir@
+top_srcdir = @top_srcdir@
+
+prefix		= @prefix@
+exec_prefix	= @exec_prefix@
+bindir		= @bindir@
+
+VPATH = @srcdir@:@srcdir@/src
+
+CC              = @CC@
+CXX             = @CXX@
+CFLAGS          = @CFLAGS@ @CXXFLAGS@
+WARNINGS	= @WARNINGS@
+MDYNAMICNOPIC   = @MDYNAMICNOPIC@
+CPPFLAGS        = @CPPFLAGS@
+DEFS            = @DEFS@ @ENDIAN_FLAG@
+LDFLAGS         = @LDFLAGS@
+HAVE_PRIVEXT    = @HAVE_PRIVEXT@
+HAVE_FOREIGN_HEADERS    = @HAVE_FOREIGN_HEADERS@
+
+ifeq ($(HAVE_PRIVEXT),NO)
+INCPRIVEXT      = -include $(top_srcdir)/include/extern.h
+endif
+
+ifeq ($(HAVE_FOREIGN_HEADERS),YES)
+FORHDRS         = -I$(top_srcdir)/include/foreign
+endif
+
+INSTALL		= @INSTALL@
+INSTALL_PROGRAM	= @INSTALL_PROGRAM@
+transform       = @program_transform_name@
+
+MYINCLUDES      = -I$(builddir) -I$(srcdir) -I$(srcdir)/src -I$(top_builddir)/include \
+			-I$(top_srcdir)/include $(INCPRIVEXT) $(FORHDRS)
+MYWARNINGS      = 
+MYDEFS          = -DDEBUG -DLD_CLASSIC="\"$(shell echo ld_classic | sed '$(transform)')\""
+MYLDFLAGS	= -L$(top_builddir)/libstuff
+MYLIBS		= -lstuff -luuid -lcrypto -ldl
+
+MYCOMPILEFLAGS	= $(WARNINGS) $(MYWARNINGS) $(DEFS) $(MYDEFS) \
+	$(CPPFLAGS) $(MYINCLUDES) $(CFLAGS) $(MDYNAMICNOPIC) 
+
+MYLINKFLAGS	= $(LDFLAGS) $(MYLDFLAGS) $(MYLIBS)
+
+CXXFILES = ld.cpp Options.cpp
+CFILES = debugline.c strlcpy.c
+
+OBJS = $(CXXFILES:.cpp=.o) $(CFILES:.c=.o)
+.cpp.o:
+	$(CXX) $(MYCOMPILEFLAGS) -c -o $@ $<
+.c.o:
+	$(CC)  $(MYCOMPILEFLAGS) -c -o $@ $<
+
+.PHONY: default clean distclean install
+
+default: ld64
+
+ld64: $(OBJS)
+	$(CXX) -o $@ $^ $(MYLINKFLAGS)
+
+install: ld64
+	mkdir -p $(DESTDIR)$(bindir)
+	$(INSTALL_PROGRAM) ld64 \
+		$(DESTDIR)$(bindir)/`echo ld64 | sed '$(transform)'`
+
+clean:
+	rm -r -f *.o */*.o
+	rm -f ld64

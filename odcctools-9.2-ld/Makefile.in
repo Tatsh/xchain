@@ -1,0 +1,50 @@
+CFLAGS = @CFLAGS@
+CPPFLAGS = @CPPFLAGS@
+DEFS = @DEFS@
+LDFLAGS = @LDFLAGS@
+
+builddir = @builddir@
+abs_builddir = @abs_builddir@
+top_builddir = @top_builddir@
+abs_top_builddir = @abs_top_builddir@
+srcdir = @srcdir@
+abs_srcdir = @abs_srcdir@
+top_srcdir = @top_srcdir@
+abs_top_srcdir = @abs_top_srcdir@
+
+VPATH = @srcdir@
+
+COMPONENTS = @COMPONENTS@
+
+.PHONY: default install clean distclean $(COMPONENTS)
+
+default: $(COMPONENTS)
+
+$(COMPONENTS):
+	cd $@ && $(MAKE)
+
+as ar ld ld64 misc otool: libstuff
+
+clean distclean install:
+	for c in $(COMPONENTS); do              	\
+		(cd $$c && $(MAKE) $@) || exit 1;	\
+	done
+
+$(srcdir)/configure: configure.ac
+	cd $(srcdir) && autoconf
+
+$(srcdir)/include/config.h.in: include/stamp-h.in
+$(srcdir)/include/stamp-h.in: configure.ac
+	cd $(srcdir) && autoheader
+	echo timestamp > $(srcdir)/include/stamp-h.in
+
+include/config.h: include/stamp-h
+include/stamp-h: include/config.h.in config.status
+	./config.status
+
+Makefile: Makefile.in config.status
+	./config.status
+
+config.status: configure
+	./config.status --recheck
+

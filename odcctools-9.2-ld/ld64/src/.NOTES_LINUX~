@@ -1,0 +1,380 @@
+ROUND 1
+# stdio
+In file included from ./src/ld.cpp:60:0:
+./src/MachOReaderRelocatable.hpp: In constructor ‘mach_o::relocatable::Reader<A>::Reader(const uint8_t*, const char*, time_t, const ObjectFile::ReaderOptions&, uint32_t)’:
+./src/MachOReaderRelocatable.hpp:2070:18: error: ‘stderr’ was not declared in this scope
+./src/MachOReaderRelocatable.hpp: In member function ‘bool mach_o::relocatable::Reader<A>::addRelocReference_powerpc(const macho_section<typename A::P>*, const macho_relocation_info<typename A::P>*)’:
+./src/MachOReaderRelocatable.hpp:3164:14: error: ‘stderr’ was not declared in this scope
+./src/MachOReaderRelocatable.hpp:3167:14: error: ‘stderr’ was not declared in this scope
+./src/MachOReaderRelocatable.hpp: In member function ‘const char* mach_o::relocatable::Reference<A>::getDescription() const [with A = x86]’:
+./src/MachOReaderRelocatable.hpp:4117:33: error: ‘sprintf’ was not declared in this scope
+./src/MachOReaderRelocatable.hpp:4194:64: error: ‘sprintf’ was not declared in this scope
+./src/MachOReaderRelocatable.hpp: In member function ‘const char* mach_o::relocatable::Reference<A>::getDescription() const [with A = ppc]’:
+./src/MachOReaderRelocatable.hpp:4206:33: error: ‘sprintf’ was not declared in this scope
+./src/MachOReaderRelocatable.hpp:4297:64: error: ‘sprintf’ was not declared in this scope
+./src/MachOReaderRelocatable.hpp: In member function ‘const char* mach_o::relocatable::Reference<A>::getDescription() const [with A = ppc64]’:
+./src/MachOReaderRelocatable.hpp:4308:33: error: ‘sprintf’ was not declared in this scope
+./src/MachOReaderRelocatable.hpp:4406:71: error: ‘sprintf’ was not declared in this scope
+./src/MachOReaderRelocatable.hpp: In member function ‘const char* mach_o::relocatable::Reference<A>::getDescription() const [with A = x86_64]’:
+./src/MachOReaderRelocatable.hpp:4418:33: error: ‘sprintf’ was not declared in this scope
+./src/MachOReaderRelocatable.hpp:4504:71: error: ‘sprintf’ was not declared in this scope
+./src/MachOReaderRelocatable.hpp: In member function ‘const char* mach_o::relocatable::Reference<A>::getDescription() const [with A = arm]’:
+./src/MachOReaderRelocatable.hpp:4515:33: error: ‘sprintf’ was not declared in this scope
+./src/MachOReaderRelocatable.hpp:4576:64: error: ‘sprintf’ was not declared in this scope
+In file included from ./src/ld.cpp:62:0:
+./src/MachOReaderDylib.hpp: In constructor ‘mach_o::dylib::Reader<A>::Reader(const uint8_t*, uint64_t, const char*, const DynamicLibraryOptions&, const ObjectFile::ReaderOptions&, uint32_t)’:
+./src/MachOReaderDylib.hpp:512:33: error: ‘stderr’ was not declared in this scope
+./src/MachOReaderDylib.hpp:525:33: error: ‘stderr’ was not declared in this scope
+./src/MachOReaderDylib.hpp: In member function ‘void mach_o::dylib::Reader<A>::addSymbol(const char*, bool, uint32_t)’:
+./src/MachOReaderDylib.hpp:580:38: error: ‘stderr’ was not declared in this scope
+./src/MachOReaderDylib.hpp:612:33: error: ‘stderr’ was not declared in this scope
+./src/MachOReaderDylib.hpp: In member function ‘virtual std::vector<ObjectFile::Atom*>* mach_o::dylib::Reader<A>::getJustInTimeAtomsFor(const char*)’:
+./src/MachOReaderDylib.hpp:636:34: error: ‘stderr’ was not declared in this scope
+./src/MachOReaderDylib.hpp:643:33: error: ‘stderr’ was not declared in this scope
+./src/ld.cpp: In member function ‘ObjectFile::Reader* Linker::createReader(const Options::FileInfo&)’:
+./src/ld.cpp:2929:32: error: expected type-specifier
+./src/ld.cpp:2929:32: error: expected ‘)’
+./src/ld.cpp:2929:156: error: no matching function for call to ‘Linker::addObject(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:298:22: note: candidate is: ObjectFile::Reader* Linker::addObject(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2931:31: error: expected type-specifier
+./src/ld.cpp:2931:31: error: expected ‘)’
+./src/ld.cpp:2931:154: error: no matching function for call to ‘Linker::addDylib(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:297:22: note: candidate is: ObjectFile::Reader* Linker::addDylib(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2933:33: error: expected type-specifier
+./src/ld.cpp:2933:33: error: expected ‘)’
+./src/ld.cpp:2933:150: error: no matching function for call to ‘Linker::addArchive(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:299:22: note: candidate is: ObjectFile::Reader* Linker::addArchive(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2937:32: error: expected type-specifier
+./src/ld.cpp:2937:32: error: expected ‘)’
+./src/ld.cpp:2937:158: error: no matching function for call to ‘Linker::addObject(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:298:22: note: candidate is: ObjectFile::Reader* Linker::addObject(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2939:31: error: expected type-specifier
+./src/ld.cpp:2939:31: error: expected ‘)’
+./src/ld.cpp:2939:156: error: no matching function for call to ‘Linker::addDylib(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:297:22: note: candidate is: ObjectFile::Reader* Linker::addDylib(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2941:33: error: expected type-specifier
+./src/ld.cpp:2941:33: error: expected ‘)’
+./src/ld.cpp:2941:152: error: no matching function for call to ‘Linker::addArchive(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:299:22: note: candidate is: ObjectFile::Reader* Linker::addArchive(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2945:32: error: expected type-specifier
+./src/ld.cpp:2945:32: error: expected ‘)’
+./src/ld.cpp:2945:156: error: no matching function for call to ‘Linker::addObject(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:298:22: note: candidate is: ObjectFile::Reader* Linker::addObject(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2947:31: error: expected type-specifier
+./src/ld.cpp:2947:31: error: expected ‘)’
+./src/ld.cpp:2947:154: error: no matching function for call to ‘Linker::addDylib(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:297:22: note: candidate is: ObjectFile::Reader* Linker::addDylib(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2949:33: error: expected type-specifier
+./src/ld.cpp:2949:33: error: expected ‘)’
+./src/ld.cpp:2949:150: error: no matching function for call to ‘Linker::addArchive(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:299:22: note: candidate is: ObjectFile::Reader* Linker::addArchive(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2953:32: error: expected type-specifier
+./src/ld.cpp:2953:32: error: expected ‘)’
+./src/ld.cpp:2953:159: error: no matching function for call to ‘Linker::addObject(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:298:22: note: candidate is: ObjectFile::Reader* Linker::addObject(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2955:31: error: expected type-specifier
+./src/ld.cpp:2955:31: error: expected ‘)’
+./src/ld.cpp:2955:157: error: no matching function for call to ‘Linker::addDylib(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:297:22: note: candidate is: ObjectFile::Reader* Linker::addDylib(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2957:33: error: expected type-specifier
+./src/ld.cpp:2957:33: error: expected ‘)’
+./src/ld.cpp:2957:153: error: no matching function for call to ‘Linker::addArchive(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:299:22: note: candidate is: ObjectFile::Reader* Linker::addArchive(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2960:32: error: expected type-specifier
+./src/ld.cpp:2960:32: error: expected ‘)’
+./src/ld.cpp:2960:156: error: no matching function for call to ‘Linker::addObject(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:298:22: note: candidate is: ObjectFile::Reader* Linker::addObject(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2962:31: error: expected type-specifier
+./src/ld.cpp:2962:31: error: expected ‘)’
+./src/ld.cpp:2962:154: error: no matching function for call to ‘Linker::addDylib(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:297:22: note: candidate is: ObjectFile::Reader* Linker::addDylib(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2964:33: error: expected type-specifier
+./src/ld.cpp:2964:33: error: expected ‘)’
+./src/ld.cpp:2964:150: error: no matching function for call to ‘Linker::addArchive(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:299:22: note: candidate is: ObjectFile::Reader* Linker::addArchive(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+In file included from ./src/ld.cpp:60:0:
+./src/MachOReaderRelocatable.hpp: In constructor ‘mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = x86_64, mach_o::relocatable::Reference<A>::Kinds = x86_64::ReferenceKinds]’:
+./src/MachOReaderRelocatable.hpp:2495:96:   instantiated from here
+./src/MachOReaderRelocatable.hpp:150:2: error: invalid use of incomplete type ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = x86_64, mach_o::relocatable::Reference<A>::Kinds = x86_64::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp:150:2: error: declaration of ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = x86_64, mach_o::relocatable::Reference<A>::Kinds = x86_64::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp: In constructor ‘mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = x86_64, mach_o::relocatable::Reference<A>::Kinds = x86_64::ReferenceKinds, uint32_t = unsigned int]’:
+./src/MachOReaderRelocatable.hpp:2497:81:   instantiated from here
+./src/MachOReaderRelocatable.hpp:178:2: error: invalid use of incomplete type ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = x86_64, mach_o::relocatable::Reference<A>::Kinds = x86_64::ReferenceKinds, uint32_t = unsigned int]::BaseAtom’
+./src/MachOReaderRelocatable.hpp:178:2: error: declaration of ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = x86_64, mach_o::relocatable::Reference<A>::Kinds = x86_64::ReferenceKinds, uint32_t = unsigned int]::BaseAtom’
+./src/MachOReaderRelocatable.hpp: In constructor ‘mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = x86, mach_o::relocatable::Reference<A>::Kinds = x86::ReferenceKinds]’:
+./src/MachOReaderRelocatable.hpp:3553:50:   instantiated from here
+./src/MachOReaderRelocatable.hpp:167:2: error: invalid use of incomplete type ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = x86, mach_o::relocatable::Reference<A>::Kinds = x86::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp:167:2: error: declaration of ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = x86, mach_o::relocatable::Reference<A>::Kinds = x86::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp: In constructor ‘mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = arm, mach_o::relocatable::Reference<A>::Kinds = arm::ReferenceKinds]’:
+./src/MachOReaderRelocatable.hpp:4071:62:   instantiated from here
+./src/MachOReaderRelocatable.hpp:167:2: error: invalid use of incomplete type ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = arm, mach_o::relocatable::Reference<A>::Kinds = arm::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp:167:2: error: declaration of ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = arm, mach_o::relocatable::Reference<A>::Kinds = arm::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp: In constructor ‘mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = ppc64, mach_o::relocatable::Reference<A>::Kinds = ppc64::ReferenceKinds]’:
+./src/MachOReaderRelocatable.hpp:3360:6:   instantiated from ‘bool mach_o::relocatable::Reader<A>::addRelocReference_powerpc(const macho_section<typename A::P>*, const macho_relocation_info<typename A::P>*) [with A = ppc64, typename A::P = Pointer64<BigEndian>, typename A::P = Pointer64<BigEndian>]’
+./src/MachOReaderRelocatable.hpp:2921:9:   instantiated from here
+./src/MachOReaderRelocatable.hpp:167:2: error: invalid use of incomplete type ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = ppc64, mach_o::relocatable::Reference<A>::Kinds = ppc64::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp:167:2: error: declaration of ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = ppc64, mach_o::relocatable::Reference<A>::Kinds = ppc64::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp: In constructor ‘mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = ppc, mach_o::relocatable::Reference<A>::Kinds = ppc::ReferenceKinds]’:
+./src/MachOReaderRelocatable.hpp:3360:6:   instantiated from ‘bool mach_o::relocatable::Reader<A>::addRelocReference_powerpc(const macho_section<typename A::P>*, const macho_relocation_info<typename A::P>*) [with A = ppc, typename A::P = Pointer32<BigEndian>, typename A::P = Pointer32<BigEndian>]’
+./src/MachOReaderRelocatable.hpp:2927:9:   instantiated from here
+./src/MachOReaderRelocatable.hpp:167:2: error: invalid use of incomplete type ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = ppc, mach_o::relocatable::Reference<A>::Kinds = ppc::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp:167:2: error: declaration of ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = ppc, mach_o::relocatable::Reference<A>::Kinds = ppc::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp: In constructor ‘mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = x86, mach_o::relocatable::Reference<A>::Kinds = x86::ReferenceKinds, uint32_t = unsigned int]’:
+./src/MachOReaderRelocatable.hpp:2474:75:   instantiated from ‘mach_o::relocatable::Reference<A>* mach_o::relocatable::Reader<A>::makeByNameReference(mach_o::relocatable::Reader<A>::Kinds, mach_o::relocatable::Reader<A>::pint_t, const char*, uint32_t) [with A = x86, mach_o::relocatable::Reader<A>::Kinds = x86::ReferenceKinds, mach_o::relocatable::Reader<A>::pint_t = unsigned int, uint32_t = unsigned int]’
+./src/MachOReaderRelocatable.hpp:3429:8:   instantiated from here
+./src/MachOReaderRelocatable.hpp:178:2: error: invalid use of incomplete type ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = x86, mach_o::relocatable::Reference<A>::Kinds = x86::ReferenceKinds, uint32_t = unsigned int]::BaseAtom’
+./src/MachOReaderRelocatable.hpp:178:2: error: declaration of ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = x86, mach_o::relocatable::Reference<A>::Kinds = x86::ReferenceKinds, uint32_t = unsigned int]::BaseAtom’
+./src/MachOReaderRelocatable.hpp: In constructor ‘mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = x86, mach_o::relocatable::Reference<A>::Kinds = x86::ReferenceKinds]’:
+./src/MachOReaderRelocatable.hpp:2450:84:   instantiated from ‘mach_o::relocatable::Reference<A>* mach_o::relocatable::Reader<A>::makeReference(mach_o::relocatable::Reader<A>::Kinds, mach_o::relocatable::Reader<A>::pint_t, mach_o::relocatable::Reader<A>::pint_t) [with A = x86, mach_o::relocatable::Reader<A>::Kinds = x86::ReferenceKinds, mach_o::relocatable::Reader<A>::pint_t = unsigned int]’
+./src/MachOReaderRelocatable.hpp:3453:68:   instantiated from here
+./src/MachOReaderRelocatable.hpp:150:2: error: invalid use of incomplete type ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = x86, mach_o::relocatable::Reference<A>::Kinds = x86::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp:150:2: error: declaration of ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = x86, mach_o::relocatable::Reference<A>::Kinds = x86::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp: In constructor ‘mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = arm, mach_o::relocatable::Reference<A>::Kinds = arm::ReferenceKinds, uint32_t = unsigned int]’:
+./src/MachOReaderRelocatable.hpp:2474:75:   instantiated from ‘mach_o::relocatable::Reference<A>* mach_o::relocatable::Reader<A>::makeByNameReference(mach_o::relocatable::Reader<A>::Kinds, mach_o::relocatable::Reader<A>::pint_t, const char*, uint32_t) [with A = arm, mach_o::relocatable::Reader<A>::Kinds = arm::ReferenceKinds, mach_o::relocatable::Reader<A>::pint_t = unsigned int, uint32_t = unsigned int]’
+./src/MachOReaderRelocatable.hpp:3860:7:   instantiated from here
+./src/MachOReaderRelocatable.hpp:178:2: error: invalid use of incomplete type ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = arm, mach_o::relocatable::Reference<A>::Kinds = arm::ReferenceKinds, uint32_t = unsigned int]::BaseAtom’
+./src/MachOReaderRelocatable.hpp:178:2: error: declaration of ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = arm, mach_o::relocatable::Reference<A>::Kinds = arm::ReferenceKinds, uint32_t = unsigned int]::BaseAtom’
+./src/MachOReaderRelocatable.hpp: In constructor ‘mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = arm, mach_o::relocatable::Reference<A>::Kinds = arm::ReferenceKinds]’:
+./src/MachOReaderRelocatable.hpp:2450:84:   instantiated from ‘mach_o::relocatable::Reference<A>* mach_o::relocatable::Reader<A>::makeReference(mach_o::relocatable::Reader<A>::Kinds, mach_o::relocatable::Reader<A>::pint_t, mach_o::relocatable::Reader<A>::pint_t) [with A = arm, mach_o::relocatable::Reader<A>::Kinds = arm::ReferenceKinds, mach_o::relocatable::Reader<A>::pint_t = unsigned int]’
+./src/MachOReaderRelocatable.hpp:3887:63:   instantiated from here
+./src/MachOReaderRelocatable.hpp:150:2: error: invalid use of incomplete type ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = arm, mach_o::relocatable::Reference<A>::Kinds = arm::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp:150:2: error: declaration of ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = arm, mach_o::relocatable::Reference<A>::Kinds = arm::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp: In constructor ‘mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = ppc64, mach_o::relocatable::Reference<A>::Kinds = ppc64::ReferenceKinds, uint32_t = unsigned int]’:
+./src/MachOReaderRelocatable.hpp:2474:75:   instantiated from ‘mach_o::relocatable::Reference<A>* mach_o::relocatable::Reader<A>::makeByNameReference(mach_o::relocatable::Reader<A>::Kinds, mach_o::relocatable::Reader<A>::pint_t, const char*, uint32_t) [with A = ppc64, mach_o::relocatable::Reader<A>::Kinds = ppc64::ReferenceKinds, mach_o::relocatable::Reader<A>::pint_t = long long unsigned int, uint32_t = unsigned int]’
+./src/MachOReaderRelocatable.hpp:2973:8:   instantiated from ‘bool mach_o::relocatable::Reader<A>::addRelocReference_powerpc(const macho_section<typename A::P>*, const macho_relocation_info<typename A::P>*) [with A = ppc64, typename A::P = Pointer64<BigEndian>, typename A::P = Pointer64<BigEndian>]’
+./src/MachOReaderRelocatable.hpp:2921:9:   instantiated from here
+./src/MachOReaderRelocatable.hpp:178:2: error: invalid use of incomplete type ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = ppc64, mach_o::relocatable::Reference<A>::Kinds = ppc64::ReferenceKinds, uint32_t = unsigned int]::BaseAtom’
+./src/MachOReaderRelocatable.hpp:178:2: error: declaration of ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = ppc64, mach_o::relocatable::Reference<A>::Kinds = ppc64::ReferenceKinds, uint32_t = unsigned int]::BaseAtom’
+./src/MachOReaderRelocatable.hpp: In constructor ‘mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = ppc64, mach_o::relocatable::Reference<A>::Kinds = ppc64::ReferenceKinds]’:
+./src/MachOReaderRelocatable.hpp:2450:84:   instantiated from ‘mach_o::relocatable::Reference<A>* mach_o::relocatable::Reader<A>::makeReference(mach_o::relocatable::Reader<A>::Kinds, mach_o::relocatable::Reader<A>::pint_t, mach_o::relocatable::Reader<A>::pint_t) [with A = ppc64, mach_o::relocatable::Reader<A>::Kinds = ppc64::ReferenceKinds, mach_o::relocatable::Reader<A>::pint_t = long long unsigned int]’
+./src/MachOReaderRelocatable.hpp:3000:8:   instantiated from ‘bool mach_o::relocatable::Reader<A>::addRelocReference_powerpc(const macho_section<typename A::P>*, const macho_relocation_info<typename A::P>*) [with A = ppc64, typename A::P = Pointer64<BigEndian>, typename A::P = Pointer64<BigEndian>]’
+./src/MachOReaderRelocatable.hpp:2921:9:   instantiated from here
+./src/MachOReaderRelocatable.hpp:150:2: error: invalid use of incomplete type ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = ppc64, mach_o::relocatable::Reference<A>::Kinds = ppc64::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp:150:2: error: declaration of ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = ppc64, mach_o::relocatable::Reference<A>::Kinds = ppc64::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp: In constructor ‘mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = ppc, mach_o::relocatable::Reference<A>::Kinds = ppc::ReferenceKinds, uint32_t = unsigned int]’:
+./src/MachOReaderRelocatable.hpp:2474:75:   instantiated from ‘mach_o::relocatable::Reference<A>* mach_o::relocatable::Reader<A>::makeByNameReference(mach_o::relocatable::Reader<A>::Kinds, mach_o::relocatable::Reader<A>::pint_t, const char*, uint32_t) [with A = ppc, mach_o::relocatable::Reader<A>::Kinds = ppc::ReferenceKinds, mach_o::relocatable::Reader<A>::pint_t = unsigned int, uint32_t = unsigned int]’
+./src/MachOReaderRelocatable.hpp:2973:8:   instantiated from ‘bool mach_o::relocatable::Reader<A>::addRelocReference_powerpc(const macho_section<typename A::P>*, const macho_relocation_info<typename A::P>*) [with A = ppc, typename A::P = Pointer32<BigEndian>, typename A::P = Pointer32<BigEndian>]’
+./src/MachOReaderRelocatable.hpp:2927:9:   instantiated from here
+./src/MachOReaderRelocatable.hpp:178:2: error: invalid use of incomplete type ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = ppc, mach_o::relocatable::Reference<A>::Kinds = ppc::ReferenceKinds, uint32_t = unsigned int]::BaseAtom’
+./src/MachOReaderRelocatable.hpp:178:2: error: declaration of ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = ppc, mach_o::relocatable::Reference<A>::Kinds = ppc::ReferenceKinds, uint32_t = unsigned int]::BaseAtom’
+./src/MachOReaderRelocatable.hpp: In constructor ‘mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = ppc, mach_o::relocatable::Reference<A>::Kinds = ppc::ReferenceKinds]’:
+./src/MachOReaderRelocatable.hpp:2450:84:   instantiated from ‘mach_o::relocatable::Reference<A>* mach_o::relocatable::Reader<A>::makeReference(mach_o::relocatable::Reader<A>::Kinds, mach_o::relocatable::Reader<A>::pint_t, mach_o::relocatable::Reader<A>::pint_t) [with A = ppc, mach_o::relocatable::Reader<A>::Kinds = ppc::ReferenceKinds, mach_o::relocatable::Reader<A>::pint_t = unsigned int]’
+./src/MachOReaderRelocatable.hpp:3000:8:   instantiated from ‘bool mach_o::relocatable::Reader<A>::addRelocReference_powerpc(const macho_section<typename A::P>*, const macho_relocation_info<typename A::P>*) [with A = ppc, typename A::P = Pointer32<BigEndian>, typename A::P = Pointer32<BigEndian>]’
+./src/MachOReaderRelocatable.hpp:2927:9:   instantiated from here
+./src/MachOReaderRelocatable.hpp:150:2: error: invalid use of incomplete type ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = ppc, mach_o::relocatable::Reference<A>::Kinds = ppc::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp:150:2: error: declaration of ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = ppc, mach_o::relocatable::Reference<A>::Kinds = ppc::ReferenceKinds]::BaseAtom’
+make[1]: *** [ld.o] Error 1
+make[1]: Leaving directory `/home/tatsh/dev/apple-darwin/odcctools-9.2-ld/ld64'
+make: *** [ld64] Error 2
+
+ROUND 2
+In MachOReaderRelocatable.hpp, move class BaseAtom to be above the struct the first struct that mentions ObjectFile::Atom
+
+./src/ld.cpp: In member function ‘ObjectFile::Reader* Linker::createReader(const Options::FileInfo&)’:
+./src/ld.cpp:2929:32: error: expected type-specifier
+./src/ld.cpp:2929:32: error: expected ‘)’
+        return this->addObject(new mach_o::relocatable::Reader<ppc>::Reader(p, info.path, info.modTime, fOptions.readerOptions(), fNextInputOrdinal), info, len);
+
+./src/ld.cpp:2929:156: error: no matching function for call to ‘Linker::addObject(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:298:22: note: candidate is: ObjectFile::Reader* Linker::addObject(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+
+./src/ld.cpp:2931:31: error: expected type-specifier
+./src/ld.cpp:2931:31: error: expected ‘)’
+./src/ld.cpp:2931:154: error: no matching function for call to ‘Linker::addDylib(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:297:22: note: candidate is: ObjectFile::Reader* Linker::addDylib(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2933:33: error: expected type-specifier
+./src/ld.cpp:2933:33: error: expected ‘)’
+./src/ld.cpp:2933:150: error: no matching function for call to ‘Linker::addArchive(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:299:22: note: candidate is: ObjectFile::Reader* Linker::addArchive(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2937:32: error: expected type-specifier
+./src/ld.cpp:2937:32: error: expected ‘)’
+./src/ld.cpp:2937:158: error: no matching function for call to ‘Linker::addObject(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:298:22: note: candidate is: ObjectFile::Reader* Linker::addObject(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2939:31: error: expected type-specifier
+./src/ld.cpp:2939:31: error: expected ‘)’
+./src/ld.cpp:2939:156: error: no matching function for call to ‘Linker::addDylib(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:297:22: note: candidate is: ObjectFile::Reader* Linker::addDylib(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2941:33: error: expected type-specifier
+./src/ld.cpp:2941:33: error: expected ‘)’
+./src/ld.cpp:2941:152: error: no matching function for call to ‘Linker::addArchive(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:299:22: note: candidate is: ObjectFile::Reader* Linker::addArchive(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2945:32: error: expected type-specifier
+./src/ld.cpp:2945:32: error: expected ‘)’
+./src/ld.cpp:2945:156: error: no matching function for call to ‘Linker::addObject(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:298:22: note: candidate is: ObjectFile::Reader* Linker::addObject(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2947:31: error: expected type-specifier
+./src/ld.cpp:2947:31: error: expected ‘)’
+./src/ld.cpp:2947:154: error: no matching function for call to ‘Linker::addDylib(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:297:22: note: candidate is: ObjectFile::Reader* Linker::addDylib(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2949:33: error: expected type-specifier
+./src/ld.cpp:2949:33: error: expected ‘)’
+./src/ld.cpp:2949:150: error: no matching function for call to ‘Linker::addArchive(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:299:22: note: candidate is: ObjectFile::Reader* Linker::addArchive(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2953:32: error: expected type-specifier
+./src/ld.cpp:2953:32: error: expected ‘)’
+./src/ld.cpp:2953:159: error: no matching function for call to ‘Linker::addObject(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:298:22: note: candidate is: ObjectFile::Reader* Linker::addObject(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2955:31: error: expected type-specifier
+./src/ld.cpp:2955:31: error: expected ‘)’
+./src/ld.cpp:2955:157: error: no matching function for call to ‘Linker::addDylib(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:297:22: note: candidate is: ObjectFile::Reader* Linker::addDylib(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2957:33: error: expected type-specifier
+./src/ld.cpp:2957:33: error: expected ‘)’
+./src/ld.cpp:2957:153: error: no matching function for call to ‘Linker::addArchive(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:299:22: note: candidate is: ObjectFile::Reader* Linker::addArchive(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2960:32: error: expected type-specifier
+./src/ld.cpp:2960:32: error: expected ‘)’
+./src/ld.cpp:2960:156: error: no matching function for call to ‘Linker::addObject(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:298:22: note: candidate is: ObjectFile::Reader* Linker::addObject(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2962:31: error: expected type-specifier
+./src/ld.cpp:2962:31: error: expected ‘)’
+./src/ld.cpp:2962:154: error: no matching function for call to ‘Linker::addDylib(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:297:22: note: candidate is: ObjectFile::Reader* Linker::addDylib(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2964:33: error: expected type-specifier
+./src/ld.cpp:2964:33: error: expected ‘)’
+./src/ld.cpp:2964:150: error: no matching function for call to ‘Linker::addArchive(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:299:22: note: candidate is: ObjectFile::Reader* Linker::addArchive(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+
+In file included from ./src/ld.cpp:60:0:
+./src/MachOReaderRelocatable.hpp: In constructor ‘mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = x86_64, mach_o::relocatable::Reference<A>::Kinds = x86_64::ReferenceKinds]’:
+./src/MachOReaderRelocatable.hpp:2496:96:   instantiated from here
+./src/MachOReaderRelocatable.hpp:151:2: error: invalid use of incomplete type ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = x86_64, mach_o::relocatable::Reference<A>::Kinds = x86_64::ReferenceKinds]::BaseAtom’
+
+./src/MachOReaderRelocatable.hpp:151:2: error: declaration of ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = x86_64, mach_o::relocatable::Reference<A>::Kinds = x86_64::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp: In constructor ‘mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = x86_64, mach_o::relocatable::Reference<A>::Kinds = x86_64::ReferenceKinds, uint32_t = unsigned int]’:
+./src/MachOReaderRelocatable.hpp:2498:81:   instantiated from here
+./src/MachOReaderRelocatable.hpp:179:2: error: invalid use of incomplete type ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = x86_64, mach_o::relocatable::Reference<A>::Kinds = x86_64::ReferenceKinds, uint32_t = unsigned int]::BaseAtom’
+./src/MachOReaderRelocatable.hpp:179:2: error: declaration of ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = x86_64, mach_o::relocatable::Reference<A>::Kinds = x86_64::ReferenceKinds, uint32_t = unsigned int]::BaseAtom’
+./src/MachOReaderRelocatable.hpp: In constructor ‘mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = x86, mach_o::relocatable::Reference<A>::Kinds = x86::ReferenceKinds]’:
+./src/MachOReaderRelocatable.hpp:3554:50:   instantiated from here
+./src/MachOReaderRelocatable.hpp:168:2: error: invalid use of incomplete type ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = x86, mach_o::relocatable::Reference<A>::Kinds = x86::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp:168:2: error: declaration of ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = x86, mach_o::relocatable::Reference<A>::Kinds = x86::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp: In constructor ‘mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = arm, mach_o::relocatable::Reference<A>::Kinds = arm::ReferenceKinds]’:
+./src/MachOReaderRelocatable.hpp:4072:62:   instantiated from here
+./src/MachOReaderRelocatable.hpp:168:2: error: invalid use of incomplete type ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = arm, mach_o::relocatable::Reference<A>::Kinds = arm::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp:168:2: error: declaration of ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = arm, mach_o::relocatable::Reference<A>::Kinds = arm::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp: In constructor ‘mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = ppc64, mach_o::relocatable::Reference<A>::Kinds = ppc64::ReferenceKinds]’:
+./src/MachOReaderRelocatable.hpp:3361:6:   instantiated from ‘bool mach_o::relocatable::Reader<A>::addRelocReference_powerpc(const macho_section<typename A::P>*, const macho_relocation_info<typename A::P>*) [with A = ppc64, typename A::P = Pointer64<BigEndian>, typename A::P = Pointer64<BigEndian>]’
+./src/MachOReaderRelocatable.hpp:2922:9:   instantiated from here
+./src/MachOReaderRelocatable.hpp:168:2: error: invalid use of incomplete type ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = ppc64, mach_o::relocatable::Reference<A>::Kinds = ppc64::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp:168:2: error: declaration of ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = ppc64, mach_o::relocatable::Reference<A>::Kinds = ppc64::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp: In constructor ‘mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = ppc, mach_o::relocatable::Reference<A>::Kinds = ppc::ReferenceKinds]’:
+./src/MachOReaderRelocatable.hpp:3361:6:   instantiated from ‘bool mach_o::relocatable::Reader<A>::addRelocReference_powerpc(const macho_section<typename A::P>*, const macho_relocation_info<typename A::P>*) [with A = ppc, typename A::P = Pointer32<BigEndian>, typename A::P = Pointer32<BigEndian>]’
+./src/MachOReaderRelocatable.hpp:2928:9:   instantiated from here
+./src/MachOReaderRelocatable.hpp:168:2: error: invalid use of incomplete type ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = ppc, mach_o::relocatable::Reference<A>::Kinds = ppc::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp:168:2: error: declaration of ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = ppc, mach_o::relocatable::Reference<A>::Kinds = ppc::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp: In constructor ‘mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = x86, mach_o::relocatable::Reference<A>::Kinds = x86::ReferenceKinds, uint32_t = unsigned int]’:
+./src/MachOReaderRelocatable.hpp:2475:75:   instantiated from ‘mach_o::relocatable::Reference<A>* mach_o::relocatable::Reader<A>::makeByNameReference(mach_o::relocatable::Reader<A>::Kinds, mach_o::relocatable::Reader<A>::pint_t, const char*, uint32_t) [with A = x86, mach_o::relocatable::Reader<A>::Kinds = x86::ReferenceKinds, mach_o::relocatable::Reader<A>::pint_t = unsigned int, uint32_t = unsigned int]’
+./src/MachOReaderRelocatable.hpp:3430:8:   instantiated from here
+./src/MachOReaderRelocatable.hpp:179:2: error: invalid use of incomplete type ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = x86, mach_o::relocatable::Reference<A>::Kinds = x86::ReferenceKinds, uint32_t = unsigned int]::BaseAtom’
+./src/MachOReaderRelocatable.hpp:179:2: error: declaration of ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = x86, mach_o::relocatable::Reference<A>::Kinds = x86::ReferenceKinds, uint32_t = unsigned int]::BaseAtom’
+./src/MachOReaderRelocatable.hpp: In constructor ‘mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = x86, mach_o::relocatable::Reference<A>::Kinds = x86::ReferenceKinds]’:
+./src/MachOReaderRelocatable.hpp:2451:84:   instantiated from ‘mach_o::relocatable::Reference<A>* mach_o::relocatable::Reader<A>::makeReference(mach_o::relocatable::Reader<A>::Kinds, mach_o::relocatable::Reader<A>::pint_t, mach_o::relocatable::Reader<A>::pint_t) [with A = x86, mach_o::relocatable::Reader<A>::Kinds = x86::ReferenceKinds, mach_o::relocatable::Reader<A>::pint_t = unsigned int]’
+./src/MachOReaderRelocatable.hpp:3454:68:   instantiated from here
+./src/MachOReaderRelocatable.hpp:151:2: error: invalid use of incomplete type ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = x86, mach_o::relocatable::Reference<A>::Kinds = x86::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp:151:2: error: declaration of ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = x86, mach_o::relocatable::Reference<A>::Kinds = x86::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp: In constructor ‘mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = arm, mach_o::relocatable::Reference<A>::Kinds = arm::ReferenceKinds, uint32_t = unsigned int]’:
+./src/MachOReaderRelocatable.hpp:2475:75:   instantiated from ‘mach_o::relocatable::Reference<A>* mach_o::relocatable::Reader<A>::makeByNameReference(mach_o::relocatable::Reader<A>::Kinds, mach_o::relocatable::Reader<A>::pint_t, const char*, uint32_t) [with A = arm, mach_o::relocatable::Reader<A>::Kinds = arm::ReferenceKinds, mach_o::relocatable::Reader<A>::pint_t = unsigned int, uint32_t = unsigned int]’
+./src/MachOReaderRelocatable.hpp:3861:7:   instantiated from here
+./src/MachOReaderRelocatable.hpp:179:2: error: invalid use of incomplete type ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = arm, mach_o::relocatable::Reference<A>::Kinds = arm::ReferenceKinds, uint32_t = unsigned int]::BaseAtom’
+./src/MachOReaderRelocatable.hpp:179:2: error: declaration of ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = arm, mach_o::relocatable::Reference<A>::Kinds = arm::ReferenceKinds, uint32_t = unsigned int]::BaseAtom’
+./src/MachOReaderRelocatable.hpp: In constructor ‘mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = arm, mach_o::relocatable::Reference<A>::Kinds = arm::ReferenceKinds]’:
+./src/MachOReaderRelocatable.hpp:2451:84:   instantiated from ‘mach_o::relocatable::Reference<A>* mach_o::relocatable::Reader<A>::makeReference(mach_o::relocatable::Reader<A>::Kinds, mach_o::relocatable::Reader<A>::pint_t, mach_o::relocatable::Reader<A>::pint_t) [with A = arm, mach_o::relocatable::Reader<A>::Kinds = arm::ReferenceKinds, mach_o::relocatable::Reader<A>::pint_t = unsigned int]’
+./src/MachOReaderRelocatable.hpp:3888:63:   instantiated from here
+./src/MachOReaderRelocatable.hpp:151:2: error: invalid use of incomplete type ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = arm, mach_o::relocatable::Reference<A>::Kinds = arm::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp:151:2: error: declaration of ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = arm, mach_o::relocatable::Reference<A>::Kinds = arm::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp: In constructor ‘mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = ppc64, mach_o::relocatable::Reference<A>::Kinds = ppc64::ReferenceKinds, uint32_t = unsigned int]’:
+./src/MachOReaderRelocatable.hpp:2475:75:   instantiated from ‘mach_o::relocatable::Reference<A>* mach_o::relocatable::Reader<A>::makeByNameReference(mach_o::relocatable::Reader<A>::Kinds, mach_o::relocatable::Reader<A>::pint_t, const char*, uint32_t) [with A = ppc64, mach_o::relocatable::Reader<A>::Kinds = ppc64::ReferenceKinds, mach_o::relocatable::Reader<A>::pint_t = long long unsigned int, uint32_t = unsigned int]’
+./src/MachOReaderRelocatable.hpp:2974:8:   instantiated from ‘bool mach_o::relocatable::Reader<A>::addRelocReference_powerpc(const macho_section<typename A::P>*, const macho_relocation_info<typename A::P>*) [with A = ppc64, typename A::P = Pointer64<BigEndian>, typename A::P = Pointer64<BigEndian>]’
+./src/MachOReaderRelocatable.hpp:2922:9:   instantiated from here
+./src/MachOReaderRelocatable.hpp:179:2: error: invalid use of incomplete type ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = ppc64, mach_o::relocatable::Reference<A>::Kinds = ppc64::ReferenceKinds, uint32_t = unsigned int]::BaseAtom’
+./src/MachOReaderRelocatable.hpp:179:2: error: declaration of ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = ppc64, mach_o::relocatable::Reference<A>::Kinds = ppc64::ReferenceKinds, uint32_t = unsigned int]::BaseAtom’
+./src/MachOReaderRelocatable.hpp: In constructor ‘mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = ppc64, mach_o::relocatable::Reference<A>::Kinds = ppc64::ReferenceKinds]’:
+./src/MachOReaderRelocatable.hpp:2451:84:   instantiated from ‘mach_o::relocatable::Reference<A>* mach_o::relocatable::Reader<A>::makeReference(mach_o::relocatable::Reader<A>::Kinds, mach_o::relocatable::Reader<A>::pint_t, mach_o::relocatable::Reader<A>::pint_t) [with A = ppc64, mach_o::relocatable::Reader<A>::Kinds = ppc64::ReferenceKinds, mach_o::relocatable::Reader<A>::pint_t = long long unsigned int]’
+./src/MachOReaderRelocatable.hpp:3001:8:   instantiated from ‘bool mach_o::relocatable::Reader<A>::addRelocReference_powerpc(const macho_section<typename A::P>*, const macho_relocation_info<typename A::P>*) [with A = ppc64, typename A::P = Pointer64<BigEndian>, typename A::P = Pointer64<BigEndian>]’
+./src/MachOReaderRelocatable.hpp:2922:9:   instantiated from here
+./src/MachOReaderRelocatable.hpp:151:2: error: invalid use of incomplete type ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = ppc64, mach_o::relocatable::Reference<A>::Kinds = ppc64::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp:151:2: error: declaration of ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = ppc64, mach_o::relocatable::Reference<A>::Kinds = ppc64::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp: In constructor ‘mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = ppc, mach_o::relocatable::Reference<A>::Kinds = ppc::ReferenceKinds, uint32_t = unsigned int]’:
+./src/MachOReaderRelocatable.hpp:2475:75:   instantiated from ‘mach_o::relocatable::Reference<A>* mach_o::relocatable::Reader<A>::makeByNameReference(mach_o::relocatable::Reader<A>::Kinds, mach_o::relocatable::Reader<A>::pint_t, const char*, uint32_t) [with A = ppc, mach_o::relocatable::Reader<A>::Kinds = ppc::ReferenceKinds, mach_o::relocatable::Reader<A>::pint_t = unsigned int, uint32_t = unsigned int]’
+./src/MachOReaderRelocatable.hpp:2974:8:   instantiated from ‘bool mach_o::relocatable::Reader<A>::addRelocReference_powerpc(const macho_section<typename A::P>*, const macho_relocation_info<typename A::P>*) [with A = ppc, typename A::P = Pointer32<BigEndian>, typename A::P = Pointer32<BigEndian>]’
+./src/MachOReaderRelocatable.hpp:2928:9:   instantiated from here
+./src/MachOReaderRelocatable.hpp:179:2: error: invalid use of incomplete type ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = ppc, mach_o::relocatable::Reference<A>::Kinds = ppc::ReferenceKinds, uint32_t = unsigned int]::BaseAtom’
+./src/MachOReaderRelocatable.hpp:179:2: error: declaration of ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const char*, uint32_t) [with A = ppc, mach_o::relocatable::Reference<A>::Kinds = ppc::ReferenceKinds, uint32_t = unsigned int]::BaseAtom’
+./src/MachOReaderRelocatable.hpp: In constructor ‘mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = ppc, mach_o::relocatable::Reference<A>::Kinds = ppc::ReferenceKinds]’:
+./src/MachOReaderRelocatable.hpp:2451:84:   instantiated from ‘mach_o::relocatable::Reference<A>* mach_o::relocatable::Reader<A>::makeReference(mach_o::relocatable::Reader<A>::Kinds, mach_o::relocatable::Reader<A>::pint_t, mach_o::relocatable::Reader<A>::pint_t) [with A = ppc, mach_o::relocatable::Reader<A>::Kinds = ppc::ReferenceKinds, mach_o::relocatable::Reader<A>::pint_t = unsigned int]’
+./src/MachOReaderRelocatable.hpp:3001:8:   instantiated from ‘bool mach_o::relocatable::Reader<A>::addRelocReference_powerpc(const macho_section<typename A::P>*, const macho_relocation_info<typename A::P>*) [with A = ppc, typename A::P = Pointer32<BigEndian>, typename A::P = Pointer32<BigEndian>]’
+./src/MachOReaderRelocatable.hpp:2928:9:   instantiated from here
+./src/MachOReaderRelocatable.hpp:151:2: error: invalid use of incomplete type ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = ppc, mach_o::relocatable::Reference<A>::Kinds = ppc::ReferenceKinds]::BaseAtom’
+./src/MachOReaderRelocatable.hpp:151:2: error: declaration of ‘struct mach_o::relocatable::Reference<A>::Reference(mach_o::relocatable::Reference<A>::Kinds, const mach_o::relocatable::AtomAndOffset&, const mach_o::relocatable::AtomAndOffset&) [with A = ppc, mach_o::relocatable::Reference<A>::Kinds = ppc::ReferenceKinds]::BaseAtom’
+make[1]: *** [ld.o] Error 1
+make[1]: Leaving directory `/home/tatsh/dev/apple-darwin/odcctools-9.2-ld/ld64'
+make: *** [ld64] Error 2
+
+ROUND 3
+Change all new mach_o::relocatable to use new typename mach_o::relocatable
+g++ -Wall -Wno-long-double -Wno-import  -DHAVE_CONFIG_H -D__LITTLE_ENDIAN__=1 -DDEBUG -DLD_CLASSIC="\"i686-apple-darwin11-ld_classic\"" -m32 -w -fpermissive -I. -I. -I./src -I../include -I../include -include ../include/extern.h -I../include/foreign -m32 -w -fno-builtin-round -fno-builtin-trunc -g -O2   -c -o ld.o ./src/ld.cpp
+./src/ld.cpp: In member function ‘ObjectFile::Reader* Linker::createReader(const Options::FileInfo&)’:
+./src/ld.cpp:2929:32: error: expected type-specifier
+./src/ld.cpp:2929:32: error: expected ‘)’
+./src/ld.cpp:2929:156: error: no matching function for call to ‘Linker::addObject(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:298:22: note: candidate is: ObjectFile::Reader* Linker::addObject(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2931:31: error: expected type-specifier
+./src/ld.cpp:2931:31: error: expected ‘)’
+./src/ld.cpp:2931:154: error: no matching function for call to ‘Linker::addDylib(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:297:22: note: candidate is: ObjectFile::Reader* Linker::addDylib(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2933:33: error: expected type-specifier
+./src/ld.cpp:2933:33: error: expected ‘)’
+./src/ld.cpp:2933:150: error: no matching function for call to ‘Linker::addArchive(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:299:22: note: candidate is: ObjectFile::Reader* Linker::addArchive(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2937:32: error: expected type-specifier
+./src/ld.cpp:2937:32: error: expected ‘)’
+./src/ld.cpp:2937:158: error: no matching function for call to ‘Linker::addObject(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:298:22: note: candidate is: ObjectFile::Reader* Linker::addObject(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2939:31: error: expected type-specifier
+./src/ld.cpp:2939:31: error: expected ‘)’
+./src/ld.cpp:2939:156: error: no matching function for call to ‘Linker::addDylib(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:297:22: note: candidate is: ObjectFile::Reader* Linker::addDylib(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2941:33: error: expected type-specifier
+./src/ld.cpp:2941:33: error: expected ‘)’
+./src/ld.cpp:2941:152: error: no matching function for call to ‘Linker::addArchive(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:299:22: note: candidate is: ObjectFile::Reader* Linker::addArchive(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2945:32: error: expected type-specifier
+./src/ld.cpp:2945:32: error: expected ‘)’
+./src/ld.cpp:2945:156: error: no matching function for call to ‘Linker::addObject(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:298:22: note: candidate is: ObjectFile::Reader* Linker::addObject(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2947:31: error: expected type-specifier
+./src/ld.cpp:2947:31: error: expected ‘)’
+./src/ld.cpp:2947:154: error: no matching function for call to ‘Linker::addDylib(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:297:22: note: candidate is: ObjectFile::Reader* Linker::addDylib(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2949:33: error: expected type-specifier
+./src/ld.cpp:2949:33: error: expected ‘)’
+./src/ld.cpp:2949:150: error: no matching function for call to ‘Linker::addArchive(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:299:22: note: candidate is: ObjectFile::Reader* Linker::addArchive(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2953:32: error: expected type-specifier
+./src/ld.cpp:2953:32: error: expected ‘)’
+./src/ld.cpp:2953:159: error: no matching function for call to ‘Linker::addObject(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:298:22: note: candidate is: ObjectFile::Reader* Linker::addObject(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2955:31: error: expected type-specifier
+./src/ld.cpp:2955:31: error: expected ‘)’
+./src/ld.cpp:2955:157: error: no matching function for call to ‘Linker::addDylib(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:297:22: note: candidate is: ObjectFile::Reader* Linker::addDylib(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2957:33: error: expected type-specifier
+./src/ld.cpp:2957:33: error: expected ‘)’
+./src/ld.cpp:2957:153: error: no matching function for call to ‘Linker::addArchive(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:299:22: note: candidate is: ObjectFile::Reader* Linker::addArchive(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2960:32: error: expected type-specifier
+./src/ld.cpp:2960:32: error: expected ‘)’
+./src/ld.cpp:2960:156: error: no matching function for call to ‘Linker::addObject(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:298:22: note: candidate is: ObjectFile::Reader* Linker::addObject(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2962:31: error: expected type-specifier
+./src/ld.cpp:2962:31: error: expected ‘)’
+./src/ld.cpp:2962:154: error: no matching function for call to ‘Linker::addDylib(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:297:22: note: candidate is: ObjectFile::Reader* Linker::addDylib(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+./src/ld.cpp:2964:33: error: expected type-specifier
+./src/ld.cpp:2964:33: error: expected ‘)’
+./src/ld.cpp:2964:150: error: no matching function for call to ‘Linker::addArchive(int*, const Options::FileInfo&, uint64_t&)’
+./src/ld.cpp:299:22: note: candidate is: ObjectFile::Reader* Linker::addArchive(ObjectFile::Reader*, const Options::FileInfo&, uint64_t)
+make[1]: *** [ld.o] Error 1
+make[1]: Leaving directory `/home/tatsh/dev/apple-darwin/odcctools-9.2-ld/ld64'
+make: *** [ld64] Error 2

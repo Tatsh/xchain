@@ -1,0 +1,14 @@
+Index: as/read.c
+===================================================================
+--- as/read.c	(revision 277)
++++ as/read.c	(working copy)
+@@ -496,7 +496,9 @@
+   { "lcomm",	s_lcomm,	0	},
+   { "line",	s_line,		0	},
+   { "long",	cons,		4	},
++#ifndef NeXT_MOD
+   { "word",	cons,		4	},
++#endif
+   { "quad",	cons,		8	},
+   { "lsym",	s_lsym,		0	},
+   { "section",	s_section,	0	},
