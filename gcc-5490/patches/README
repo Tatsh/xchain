@@ -1,0 +1,10 @@
+Original documentation and work by OpenTTD team
+http://devs.openttd.org/~truebrain/compile-farm/apple-darwin9.txt
+
+Apply any patches with:
+patch -p0 < patchfile.patch
+
+gcc-32bit.patch   -- Apply if you use a x86 32-bit machine (may not be necessary)
+gcc-64bit.patch   -- Apply if you use an x86_64 machine
+gcc-cflags.patch  -- Always apply
+gcc-tooldir.patch -- Apply if you are annoyed with multiple subdirectories

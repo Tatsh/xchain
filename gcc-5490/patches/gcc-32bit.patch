@@ -1,0 +1,11 @@
+--- gcc/config/i386/t-darwin.orig	2009-03-28 12:20:08.665230203 +0100
++++ gcc/config/i386/t-darwin	2009-03-28 12:20:15.033289825 +0100
+@@ -5,8 +5,4 @@
+ LIB1ASMFUNCS = _get_pc_thunk_ax _get_pc_thunk_dx _get_pc_thunk_cx _get_pc_thunk_bx _get_pc_thunk_si _get_pc_thunk_di _get_pc_thunk_bp
+ # APPLE LOCAL end 4099000
+ # APPLE LOCAL begin x86_64 support
+-ifneq ($(shell lipo -info /usr/lib/libSystem.B.dylib | grep x86_64),)
+-MULTILIB_OPTIONS = m64
+-MULTILIB_DIRNAMES = x86_64
+-endif
+ # APPLE LOCAL end x86_64 support

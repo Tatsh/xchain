@@ -1,0 +1,21 @@
+/* APPLE LOCAL file radar 4436866 */
+/* Property cannot be accessed in class method. */
+/* APPLE LOCAL radar 4899595 */
+/* { dg-options "-fno-objc-new-property -mmacosx-version-min=10.5" { target powerpc*-*-darwin* i?86*-*-darwin* } } */
+/* { dg-options "-fno-objc-new-property" { target arm*-*-darwin* } } */
+/* { dg-do compile { target *-*-darwin* } } */
+
+@interface Person 
+{
+}
+@property (ivar) char *fullName;
++ (void) testClass;
+@end	
+
+@implementation  Person
+@property char *fullName;
++ (void) testClass {
+	self.fullName = "MyName"; /* { dg-error "request for member \\'fullName\\' in something not a structure or union" } */
+}
+@end
+

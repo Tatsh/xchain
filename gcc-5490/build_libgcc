@@ -1,0 +1,239 @@
+#!/bin/sh
+# APPLE LOCAL file ARM libgcc
+# This is a pared-down version of build_gcc that builds all non-native
+# TARGETS ($2) and then creates a destination directory containing only
+# the libgcc files for those TARGETS.
+
+set -x
+
+# -arch arguments are different than configure arguments. We need to
+# translate them.
+
+TRANSLATE_ARCH="sed -e s/ppc/powerpc/ -e s/i386/i686/ -e s/ppc64/powerpc64/"
+TRANSLATE_TARGETS="sed -e s/ppc/powerpc/ -e s/i386/i686/ -e s/armv4t/arm/ \
+  -e s/armv6/arm/ -e s/x86_64// -e s/powerpc64// -e s/ppc64//"
+
+# Build GCC the "Apple way".
+# Parameters:
+
+# The first parameter is a space-separated list of the architectures
+# the compilers will run on.  For instance, "ppc i386".  If the
+# current machine isn't in the list, it will (effectively) be added.
+HOSTS=`echo $1 | $TRANSLATE_ARCH `
+
+# The second parameter is a space-separated list of the architectures the
+# compilers will generate code for.  If the current machine isn't in
+# the list, a compiler for it will get built anyway, but won't be
+# installed.
+ORIG_TARGETS="$2"
+TARGETS=`echo $2 | $TRANSLATE_TARGETS`
+
+# The B&I build srcript (~rc/bin/buildit) accepts an '-othercflags'
+# command-line flag, and captures the argument to that flag in
+# $RC_NONARCH_CFLAGS (and mysteriously prepends '-pipe' thereto).
+# We will allow this to override the default $CFLAGS and $CXXFLAGS.
+
+CFLAGS="-g -O2 ${RC_NONARCH_CFLAGS/-pipe/}"
+
+# This isn't a parameter; it is the architecture of the current machine.
+BUILD=`arch | $TRANSLATE_ARCH`
+
+# The third parameter is the path to the compiler sources.  There should
+# be a shell script named 'configure' in this directory.  This script
+# makes a copy...
+ORIG_SRC_DIR="$3"
+
+# The fourth parameter is the location where the compiler will be installed,
+# normally "/usr".  You can move it once it's built, so this mostly controls
+# the layout of $DEST_DIR.
+DEST_ROOT="$4"
+
+# The fifth parameter is the place where the compiler will be copied once
+# it's built.
+DEST_DIR="$5"
+
+# The current working directory is where the build will happen.
+# It may already contain a partial result of an interrupted build,
+# in which case this script will continue where it left off.
+DIR=`pwd`
+
+# This isn't a parameter; it's the version of the compiler that we're
+# about to build.  It's included in the names of various files and
+# directories in the installed image.
+VERS=`sed -n -e '/version_string/s/.*\"\([^ \"]*\)[ \"].*/\1/p' \
+  < $ORIG_SRC_DIR/gcc/version.c || exit 1`
+
+# This isn't a parameter either, it's the major version of the compiler
+# to be built.  It's VERS but only up to the second '.' (if there is one).
+MAJ_VERS=`echo $VERS | sed 's/\([0-9]*\.[0-9]*\)[.-].*/\1/'`
+
+# This is the default architecture for i386 configurations.
+I386_CPU="--with-arch=apple --with-tune=generic"
+
+# For ARM, grab all system files from an SDK.
+ARM_SYSROOT="/Developer/SDKs/Extra"
+ARM_CONFIGFLAGS="--with-sysroot=\"$ARM_SYSROOT\""
+
+# This is the libstdc++ version to use.
+LIBSTDCXX_VERSION=4.0.0
+
+# Sniff to see if we can do ppc64 building.
+DARWIN_VERS=9
+if [ x"`file /usr/lib/crt1.o | grep 'architecture ppc64'`" == x ]; then
+    DARWIN_VERS=7
+fi
+
+echo DARWIN_VERS = $DARWIN_VERS
+
+# If the user has CC set in their environment unset it now
+unset CC
+
+########################################
+# Run the build.
+
+# Create the source tree we'll actually use to build, deleting
+# tcl since it doesn't actually build properly in a cross environment
+# and we don't really need it.
+SRC_DIR=$DIR/src
+rm -rf $SRC_DIR || exit 1
+mkdir $SRC_DIR || exit 1
+ln -s $ORIG_SRC_DIR/* $SRC_DIR/ || exit 1
+rm -rf $SRC_DIR/tcl $SRC_DIR/expect $SRC_DIR/dejagnu || exit 1
+# Also remove libstdc++ since it is built from a separate project.
+rm -rf $SRC_DIR/libstdc++-v3 || exit 1
+# Clean out old specs files
+rm -f /usr/lib/gcc/*/4.0.0/specs
+
+# These are the configure and build flags that are used.
+CONFIGFLAGS="--disable-checking -enable-werror \
+  --prefix=$DEST_ROOT \
+  --mandir=\${prefix}/share/man \
+  --enable-languages=c,objc,c++,obj-c++ \
+  --program-transform-name=/^[cg][^.-]*$/s/$/-$MAJ_VERS/ \
+  --with-gxx-include-dir=\${prefix}/include/c++/$LIBSTDCXX_VERSION \
+  --with-slibdir=/usr/lib \
+  --build=$BUILD-apple-darwin$DARWIN_VERS"
+
+# Figure out how many make processes to run.
+SYSCTL=`sysctl -n hw.activecpu`
+
+# hw.activecpu only available in 10.2.6 and later
+if [ -z "$SYSCTL" ]; then
+  SYSCTL=`sysctl -n hw.ncpu`
+fi
+
+# sysctl -n hw.* does not work when invoked via B&I chroot /BuildRoot.
+# Builders can default to 2, since even if they are single processor,
+# nothing else is running on the machine.
+if [ -z "$SYSCTL" ]; then
+  SYSCTL=2
+fi
+
+# The $LOCAL_MAKEFLAGS variable can be used to override $MAKEFLAGS.
+MAKEFLAGS=${LOCAL_MAKEFLAGS-"-j $SYSCTL"}
+
+# The cross-tools' build process expects to find certain programs
+# under names like 'i386-apple-darwin$DARWIN_VERS-ar'; so make them.
+# Annoyingly, ranlib changes behaviour depending on what you call it,
+# so we have to use a shell script for indirection, grrr.
+rm -rf $DIR/bin || exit 1
+mkdir $DIR/bin || exit 1
+for prog in ar nm ranlib strip lipo ; do
+  for t in `echo $TARGETS $HOSTS | sort -u`; do
+    P=$DIR/bin/${t}-apple-darwin$DARWIN_VERS-${prog}
+    echo '#!/bin/sh' > $P || exit 1
+    echo 'exec /usr/bin/'${prog}' $*' >> $P || exit 1
+    chmod a+x $P || exit 1
+  done
+done
+for t in `echo $1 $2 | sort -u`; do
+  gt=`echo $t | $TRANSLATE_ARCH`
+  P=$DIR/bin/${gt}-apple-darwin$DARWIN_VERS-as
+  echo '#!/bin/sh' > $P || exit 1
+  echo 'exec /usr/bin/as -arch '${t}' $*' >> $P || exit 1
+  chmod a+x $P || exit 1
+done
+PATH=$DIR/bin:$PATH
+
+# Build the cross-compilers, using the compiler we just built.
+for t in `echo $TARGETS $HOSTS | sort -u`; do
+ if [ $t != $BUILD ] ; then
+  mkdir -p $DIR/obj-$BUILD-$t $DIR/dst-$BUILD-$t || exit 1
+   cd $DIR/obj-$BUILD-$t || exit 1
+   if [ \! -f Makefile ]; then
+    $SRC_DIR/configure $CONFIGFLAGS --enable-werror-always \
+     `if [ $t = i686 ] ; then echo $I386_CPU ; fi` \
+     `if [ $t = 'arm' ] ; then echo $ARM_CONFIGFLAGS ; fi` \
+      --with-slibdir=$DEST_ROOT/lib \
+      --program-prefix=$t-apple-darwin$DARWIN_VERS- \
+      --host=$BUILD-apple-darwin$DARWIN_VERS --target=$t-apple-darwin$DARWIN_VERS || exit 1
+   fi
+   make $MAKEFLAGS all CFLAGS="$CFLAGS" CXXFLAGS="$CFLAGS" || exit 1
+   make $MAKEFLAGS DESTDIR=$DIR/dst-$BUILD-$t install-gcc install-target \
+     CFLAGS="$CFLAGS" CXXFLAGS="$CFLAGS" || exit 1
+
+    # Add the compiler we just built to the path.
+   PATH=$DIR/dst-$BUILD-$t/usr/bin:$PATH
+ fi
+done
+
+########################################
+# Construct the actual destination root, by copying stuff from
+# $DIR/dst-* to $DEST_DIR, with occasional 'lipo' commands.
+
+cd $DEST_DIR || exit 1
+
+# Clean out DEST_DIR in case -noclean was passed to buildit.
+rm -rf * || exit 1
+
+# libgcc
+SHARED_LIBS="libgcc_s.1.dylib libgcc_s_v6.1.dylib libgcc_s.10.4.dylib libgcc_s.10.5.dylib"
+
+cd $DEST_DIR || exit 1
+mkdir -p .$DEST_ROOT/lib
+for l in $SHARED_LIBS ; do
+  CANDIDATES=()
+  for t in $TARGETS ; do
+    if [ -e $DIR/dst-$t-$t$DEST_ROOT/lib/$l ] ; then
+      CANDIDATES[${#CANDIDATES[*]}]=$DIR/dst-$t-$t$DEST_ROOT/lib/$l
+    # If our target is not one of our hosts, we must look elsewhere for the libraries
+    else
+      if [ -e $DIR/dst-$BUILD-$t$DEST_ROOT/lib/$l ] ; then
+        CANDIDATES[${#CANDIDATES[*]}]=$DIR/dst-$BUILD-$t$DEST_ROOT/lib/$l
+      fi
+    fi
+  done
+  if [ ${#CANDIDATES[@]} != '0' ] ; then
+    if [ -L ${CANDIDATES[0]} ] ; then
+      ln -s `readlink ${CANDIDATES[0]}` .$DEST_ROOT/lib/$l || exit 1
+    else
+      lipo -output .$DEST_ROOT/lib/$l -create "${CANDIDATES[@]}" || exit 1
+    fi
+    if ! file .$DEST_ROOT/lib/$l | grep stub > /dev/null ; then
+      strip -x .$DEST_ROOT/lib/$l || exit 1
+    fi
+  fi
+done
+
+# If targets is 'armv6' or 'armv4t', then strip out unrequested
+# targets, as these can do more harm than good (see rdar://5572168).
+for t in $ORIG_TARGETS ; do
+  if [ $t = 'armv6' ] ; then
+    INCLUDE_ARMV6='yes'
+  elif [ $t = 'armv4t' ] ; then
+    INCLUDE_ARMV4='yes'
+  fi
+done
+
+for l in $SHARED_LIBS ; do
+  if [ -f .$DEST_ROOT/lib/$l ] ; then
+    if [ "$INCLUDE_ARMV4" = 'yes' ] && [ "$INCLUDE_ARMV6" != 'yes' ] ; then
+      lipo -thin arm .$DEST_ROOT/lib/$l -output .$DEST_ROOT/lib/$l
+    elif [ "$INCLUDE_ARMV6" = 'yes' ] && [ "$INCLUDE_ARMV4" != 'yes' ] ; then
+      lipo -thin armv6 .$DEST_ROOT/lib/$l -output .$DEST_ROOT/lib/$l
+    fi
+  fi
+done
+
+# Done!
+exit 0

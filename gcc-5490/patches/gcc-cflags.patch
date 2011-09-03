@@ -1,0 +1,11 @@
+--- Makefile.in.orig	2009-03-29 16:31:54.492629713 +0200
++++ Makefile.in	2009-03-29 16:31:58.528741823 +0200
+@@ -391,7 +391,7 @@
+ # CFLAGS will be just -g.  We want to ensure that TARGET libraries
+ # (which we know are built with gcc) are built with optimizations so
+ # prepend -O2 when setting CFLAGS_FOR_TARGET.
+-CFLAGS_FOR_TARGET = -O2 $(CFLAGS)
++CFLAGS_FOR_TARGET = -O2
+ # If GCC_FOR_TARGET is not overriden on the command line, then this
+ # variable is passed down to the gcc Makefile, where it is used to
+ # build libgcc2.a.  We define it here so that it can itself be
