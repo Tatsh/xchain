@@ -21,6 +21,7 @@
  * @APPLE_LICENSE_HEADER_END@
  */
 #ifndef RLD
+#include "config.h"
 #include <libc.h> /* first to get rid of pre-comp warning */
 #include <mach/mach.h> /* first to get rid of pre-comp warning */
 #include "stdio.h"
@@ -137,20 +138,24 @@ char *str)
 	add_execute_list(cmd_with_prefix(str));
 }
 
-#ifndef __APPLE__
+#ifndef HAVE__NSGETEXECUTABLEPATH
 /**
- * Based on CocoTron's implementation
- * http://cocotron.googlecode.com/svn/trunk/objc/ObjCModule.m
+ * Based on MonetDB's get_bin_path
+ * http://dev.monetdb.org/hg/MonetDB/file/54ad354daff8/common/utils/mutils.c#l340
  */
 int _NSGetExecutablePath(char *buf, unsigned long *bufsize) {
-	if ((*bufsize = readlink("/proc/self/exe", buf, *bufsize)) < 0) {
-		*bufsize = 0;
-		return -1;
+#ifdef _MSC_VER
+	if (GetModuleFileName(NULL, buf, (DWORD)*bufsize) != 0) {
+		return strlen;
 	}
-	
-	return 0;
+	return -1;
+#elif defined(HAVE_READLINK) /* Linux */
+	return readlink("/proc/self/exe", buf, *bufsize);
+#else
+	return -1; /* Fail on all other systems for now */
+#endif /* _MSC_VER */
 }
-#endif /* __APPLE__ */
+#endif/* HAVE__NSGETEXECUTABLEPATH */
 
 /*
  * This routine is passed a string of a command name and a string is returned
