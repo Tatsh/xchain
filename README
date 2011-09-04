@@ -142,7 +142,7 @@ Things to do:
 - Get ARM version to build, but that will be with llvm-gcc based on the iphone-dev project
 - distcc for all targets
 - Get p5666 version of GCC to build on Linux (this is close to the version shipped with Xcode 4.1.1)
-- Get latest cctools to build on Linux
+- Get latest cctools to build on Linux (DONE except for cbtlibs, efitools, gprof)
 - Clang
 - HOWTO generate fat binaries (maybe)
 - HOWTO generate .app directory, plist, Resources, etc (nib files and CoreData very unlikely)
