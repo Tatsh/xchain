@@ -265,7 +265,7 @@ AC_COMPILE_IFELSE(
     ]
 )
 
-AC_CHECK_FUNCS([atexit bzero fchdir ftruncate getattrlist getpagesize gettimeofday memchr memmove memset NSIsSymbolNameDefined qsort_r qsort realpath sqrt strcasecmp strchr strdup strerror strlcat strmode strncasecmp strrchr strstr strtol strtoul utime])
+AC_CHECK_FUNCS([atexit bzero fchdir ftruncate getattrlist getpagesize gettimeofday memchr memmove memset NSIsSymbolNameDefined qsort_r qsort realpath sqrt strcasecmp strchr strdup strerror strlcat strmode strncasecmp strrchr strstr strtol strtoul utime _NSGetExecutablePath readlink])
 
 AC_CHECK_DECLS([getc_unlocked])
 AH_VERBATIM([HAVE_DECL_GETC_UNLOCKED_REPLACEMENT],

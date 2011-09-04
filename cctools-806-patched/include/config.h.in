@@ -97,6 +97,12 @@
 /* Define to 1 if you have the `NSIsSymbolNameDefined' function. */
 #undef HAVE_NSISSYMBOLNAMEDEFINED
 
+/* Define to 1 if you have the `_NSGetExecutablePath' function */
+#undef HAVE__NSGETEXECUTABLEPATH
+
+/* Deifne to 1 if you have the `readlink' function */
+#undef HAVE_READLINK
+
 /* Have Objective-C support */
 #undef HAVE_OBJC
 
