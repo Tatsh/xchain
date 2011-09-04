@@ -69,8 +69,8 @@ OBJS_nm		= $(CFILES_nm:.c=.o)
 CFILES_libtool	= libtool.c
 OBJS_libtool	= $(CFILES_libtool:.c=.o)
 
-CFILES_ranlib	= libtool.c
-OBJS_ranlib	= ranlib.o
+CFILES_ranlib	= ranlib.c
+OBJS_ranlib	= $(CFILES_ranlib:.c=.o)
 
 CFILES_redo_prebinding	= redo_prebinding.o
 OBJS_redo_prebinding	= $(CFILES_redo_prebinding:.c=.o)
@@ -109,7 +109,7 @@ OBJS_pagestuff	= $(CFILES_pagestuff:.c=.o)
 
 default: $(PROGRAMS)
 
-ranlib.o: libtool.c
+ranlib.o: ranlib.c
 	$(CC) -DRANLIB $(MYCOMPILEFLAGS) -c -o $@ $<
 
 nmedit.o: strip.c
