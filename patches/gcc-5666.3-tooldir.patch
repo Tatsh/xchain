@@ -1,0 +1,11 @@
+--- gcc-5666.3/configure	2010-10-14 15:28:01.000000000 -0500
++++ gcc-5666.3-patched/configure	2011-09-04 07:58:17.000000000 -0500
+@@ -3018,7 +3018,7 @@
+ 
+ # Some systems (e.g., one of the i386-aix systems the gas testers are
+ # using) don't handle "\$" correctly, so don't use it here.
+-tooldir='${exec_prefix}'/${target_alias}
++tooldir='${exec_prefix}'
+ build_tooldir=${tooldir}
+ 
+ # Create a .gdbinit file which runs the one in srcdir
