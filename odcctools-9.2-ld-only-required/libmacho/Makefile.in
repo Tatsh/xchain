@@ -1,0 +1,69 @@
+builddir = @builddir@
+top_builddir = @top_builddir@
+srcdir = @srcdir@
+top_srcdir = @top_srcdir@
+
+VPATH = @srcdir@
+
+prefix          = @prefix@
+exec_prefix     = @exec_prefix@
+libdir          = @libdir@
+
+CC		= @CC@
+AR		= @HOST_AR@
+RANLIB		= @HOST_RANLIB@
+CFLAGS		= @CFLAGS@
+WARNINGS	= @WARNINGS@
+CPPFLAGS	= @CPPFLAGS@
+DEFS		= @DEFS@ @ENDIAN_FLAG@
+LDFLAGS		= @LDFLAGS@
+HAVE_PRIVEXT	= @HAVE_PRIVEXT@
+HAVE_FOREIGN_HEADERS	= @HAVE_FOREIGN_HEADERS@
+
+INSTALL         = @INSTALL@
+INSTALL_DATA    = @INSTALL_DATA@
+
+ifeq ($(HAVE_PRIVEXT),NO)
+INCPRIVEXT	= -include $(top_srcdir)/include/extern.h
+endif
+
+ifeq ($(HAVE_FOREIGN_HEADERS),YES)
+FORHDRS		= -I$(top_srcdir)/include/foreign
+endif
+
+MYINCLUDES	= -I$(top_builddir)/include -I$(top_srcdir)/include \
+			$(INCPRIVEXT) $(FORHDRS)
+MYWARNINGS	= 
+MYDEFS		= 
+
+MYCOMPILEFLAGS	= $(WARNINGS) $(MYWARNINGS) $(DEFS) $(MYDEFS) \
+	$(CPPFLAGS) $(MYINCLUDES) $(CFLAGS)
+
+CFILES = arch.c
+ECFILES = @EMULATED_OBJ@
+
+OBJS = $(CFILES:.c=.o)
+EOBJS = $(ECFILES:.c=.o)
+
+.PHONY: default install clean distclean
+
+default: libmacho.a
+
+libmacho.a: $(OBJS) $(EOBJS)
+	$(AR) cru $@ $^
+	$(RANLIB) $@
+
+$(OBJS): %.o: %.c
+	$(CC) $(MYCOMPILEFLAGS) -c -o $@ $<
+
+emulated.o: $(top_srcdir)/libstuff/emulated.c
+	$(CC) $(MYCOMPILEFLAGS) -c -o $@ $<
+
+clean:
+	rm -r -f *.o
+	rm -f libmacho.a
+
+install: libmacho.a
+	mkdir -p $(DESTDIR)$(libdir)
+	$(INSTALL_DATA) $< $(DESTDIR)$(libdir)/$<
+	$(RANLIB) $(DESTDIR)$(libdir)/$<
