@@ -32,7 +32,7 @@ $ make install
 
 We need ar and ranlib from odcctools-9.2 due to a bug, and we need ld64.
 $ cd ../odcctools-9.2-ld-only-required
-$ LDFLAGS="-m32" CFLAGS="-m32" ./configure --prefix=/usr/$TARGET --target=$TARGET --with-sysroot=/usr/$TARGET
+$ LDFLAGS="-m32" CFLAGS="-m32" ./configure --prefix=/usr/$TARGET --target=$TARGET --with-sysroot=/usr/$TARGET --enable-ld64
 $ make
 $ make install
 
