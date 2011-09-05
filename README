@@ -21,26 +21,20 @@ export TARGET=i686-apple-darwin11
 
 11 denotes Lion, 10 for Snow Leopard, and 9 for Leopard. These are mostly superficial. All code will run on 10.5 and greater.
 
-BUILDING ODCCTOOLS
+BUILDING CCTOOLS/ODCCTOOLS
 Apple's equivalent of binutils (now called cctools)
 Do not apply any patches in the patches directory! They are there for reference purposes only.
 
-$ cd odcctools-9.2-ld
-
-Depending on your machine:
-32-bit x86:
-$ ./configure --prefix=/usr/$TARGET --target=$TARGET --with-sysroot=/usr/$TARGET --enable-ld64
-
-64-bit x86 (don't worry if you are building for x86_64, they still work):
-$ LDFLAGS="-m32" CFLAGS="-m32" ./configure --prefix=/usr/$TARGET --target=$TARGET --with-sysroot=/usr/$TARGET --enable-ld64
-
-NOTE: If you have not built your GCC with support for Objective C++, then do the following:
-vi Makefile
-Where it says COMPONENTS =, remove 'otool'.
-
+$ cd cctools-806-patched
+$ LDFLAGS="-m32" CFLAGS="-m32" ./configure --prefix=/usr/$TARGET --target=$TARGET --with-sysroot=/usr/$TARGET
 $ make
 $ make install
-$ cd ..
+
+We need ar and ranlib from odcctools-9.2 due to a bug, and we need ld64.
+$ cd ../odcctools-9.2-ld-only-required
+$ LDFLAGS="-m32" CFLAGS="-m32" ./configure --prefix=/usr/$TARGET --target=$TARGET --with-sysroot=/usr/$TARGET
+$ make
+$ make install
 
 Set PATH to have your new tools.
 $ export PATH="$PATH:/usr/$TARGET/bin"
@@ -68,21 +62,21 @@ $ ln -s SDKS/System
 $ ln -s SDKs/usr
 $ cd $LAST
 
-Now you can proceed to build GCC, but it must be patched first. Patches are located in gcc-5490/patches.
-Apply any patches with:
-patch -p0 < patchfile.patch
+Now you can proceed to build GCC, but it must be patched first. Patches are located in patches.
+$ cd gcc-5666.3
+$ patch -p1 < ../patches/gcc-5666.3-cflags.patch
 
-gcc-32bit.patch   -- Apply if you use a x86 32-bit machine (may not be necessary)
-gcc-64bit.patch   -- Apply if you use an x86_64 machine
-gcc-cflags.patch  -- Always apply
-gcc-tooldir.patch -- Apply if you are annoyed with multiple subdirectories
+Apply if you are annoyed by the default directory structure:
+$ patch -p1 < ../patches/gcc-5666.3-tooldir.patch
+
+$ cd ..
 
 After patching, I recommend building outside of the source of GCC.
 $ mkdir gcc-build
 $ cd gcc-build
 
-If on 32-bit:
-$ ../gcc-5490/configure --prefix=/usr/$TARGET \
+$ CFLAGS="-m32" CXXFLAGS="$CFLAGS" LDFLAGS="-m32" \
+../gcc-5666.3/configure --prefix=/usr/$TARGET \
 --disable-checking \
 --enable-languages=c,objc,c++,obj-c++ \
 --with-as=/usr/$TARGET/bin/$TARGET-as \
@@ -91,26 +85,21 @@ $ ../gcc-5490/configure --prefix=/usr/$TARGET \
 --with-sysroot=/usr/$TARGET \
 --enable-static \
 --enable-shared \
---disable-nls \
+--enable-nls \
 --disable-multilib \
+--disable-werror \
 --with-ranlib=/usr/$TARGET/bin/$TARGET-ranlib \
 --with-lipo=/usr/$TARGET/bin/$TARGET-lipo
 
-If on 64-bit, the same as above but prefix with -m32 to force a 32-bit build.
-$ CFLAGS="-m32" LDFLAGS="-m32" \
-../gcc-5490/configure --prefix=/usr/$TARGET \
---disable-checking \
---enable-languages=c,objc,c++,obj-c++ \
---with-as=/usr/$TARGET/bin/$TARGET-as \
---with-ld=/usr/$TARGET/bin/$TARGET-ld64 \
---target=$TARGET \
---with-sysroot=/usr/$TARGET \
---enable-static \
---enable-shared \
---disable-nls \
---disable-multilib \
---with-ranlib=/usr/$TARGET/bin/$TARGET-ranlib \
---with-lipo=/usr/$TARGET/bin/$TARGET-lipo
+Optimisations do work (most of the time), so if you want to, use:
+CFLAGS="-m32 -O2 -msse2" # etc
+
+These also may work for you:
+--enable-libgomp
+--with-system-zlib
+--without-included-gettext
+
+No, there is no Java (GCJ) or Fortran!
 
 Make and install like normal.
 $ make
@@ -118,31 +107,84 @@ $ make install
 
 Sometimes you may get an issue about ranlib not working or lipo, which is why --with-ranlib and --with-lipo are appended to ./configure. However, you may have to run make again or not use a -j flag. I would recommend not using the -j flag anyway just to ease debugging of any issues. Seriously, try doing `make` over and over until it does work.
 
+For ranlib, make sure that $TARGET-ranlib outputs exactly as follows:
+$ $TARGET-ranlib
+x86_64-apple-darwin11-ranlib: no archives specified
+Usage: x86_64-apple-darwin11-ranlib [-sactfqLT] [-] archive [...]
+
+If it does not, it is running in libtool mode and you have the wrong version installed.
+
+You may get an issue about libiberty.an not being able to be installed. You can safely ignore this error for now.
+
+Hack to fix the include path:
+$ cd /usr/$TARGET
+$ mkdir -p local
+$ cd local
+$ ln -s ../lib/gcc/$TARGET/4.2.1/include
+
 Test it out. And get familiar with OS X's GCC (particularly -framework). An example Objective-C file msg.m is included.
 
-$ i686-apple-darwin11-gcc -o msg msg.m \
+$ $TARGET-gcc -o msg msg.m \
 -fconstant-string-class=NSConstantString \
--lobjc -framework Foundation \
--I/usr/$TARGET/lib/gcc/i686-apple-darwin11/4.0.1/include
+-lobjc -framework Foundation
 
-I know, that's a weird -I flag. For now, just use an alias for both [arch]-gcc and [arch]-g++.
+Test C++:
+$ $TARGET-g++ -o msgcpp msg.cpp \
+-I/usr/$TARGET/usr/include/c++/4.2.1
+
+I know, that's a weird -I flag. For now, just use an alias for both [arch]-gcc and [arch]-g++ with it.
 
 $ file msg
 msg: Mach-O executable i386
 
-$ scp msg myname@mymac:
-$ ssh myname@mymac file msg
+$ scp msg msg myname@mymac
 $ ssh myname@mymac ./msg
 2011-09-03 03:51:52.887 msg[31266:1007] Are you John smith?
 2011-09-03 03:51:52.889 msg[31266:1007] My message
+$ ssh myname@mymac ./msgcpp
+This was compiled on a non-Mac!
 
 Have fun.
 
+Distcc for Gentoo (not for Objective-C or C++ yet due to include path issues):
+Follow these instructions:
+http://www.gentoo.org/doc/en/distcc.xml
+http://www.gentoo.org/doc/en/cross-compiling-distcc.xml (with your target being OS X Prefix)
+
 Things to do:
 - Get ARM version to build, but that will be with llvm-gcc based on the iphone-dev project
-- distcc for all targets
-- Get p5666 version of GCC to build on Linux (this is close to the version shipped with Xcode 4.1.1)
-- Get latest cctools to build on Linux (DONE except for cbtlibs, efitools, gprof)
+- distcc for Objective-C and C++
+- distcc with MacPorts
+- Get p5666 version of GCC to build on Linux (DONE except for libiberty.an issue on make install)
+- Get latest cctools to build on Linux (DONE except for ar, ranlib, cbtlibs, efitools, gprof)
 - Clang
 - HOWTO generate fat binaries (maybe)
 - HOWTO generate .app directory, plist, Resources, etc (nib files and CoreData very unlikely)
+- Fix paths when invoked (sysroot issue):
+$ $TARGET-g++ -v -o msgcpp msg.cpp
+Using built-in specs.
+Target: x86_64-apple-darwin11
+Configured with: ../gcc-5666.3/configure --disable-checking --enable-languages=c,objc,c++,obj-c++ --with-as=/home/tatsh/usr/x86_64-apple-darwin11/usr/bin/x86_64-apple-darwin11-as -with-ld=/home/tatsh/usr/x86_64-apple-darwin11/usr/bin/x86_64-apple-darwin11-ld64 --target=x86_64-apple-darwin11 --with-sysroot=/home/tatsh/usr/x86_64-apple-darwin11 --enable-shared --disable-multilib --with-ranlib=/home/tatsh/usr/x86_64-apple-darwin11/usr/bin/x86_64-apple-darwin11-ranlib --with-lipo=/home/tatsh/usr/x86_64-apple-darwin11/usr/bin/x86_64-apple-darwin11-lipo --enable-nls --enable-libgomp --disable-werror --prefix=/home/tatsh/usr/x86_64-apple-darwin11/usr --enable-static
+Thread model: posix
+gcc version 4.2.1 (Apple Inc. build 5666) (dot 3)
+ /home/tatsh/usr/x86_64-apple-darwin11/usr/libexec/gcc/x86_64-apple-darwin11/4.2.1/cc1plus -quiet -v -D__DYNAMIC__ msg.cpp -fPIC -mmacosx-version-min=10.4 -quiet -dumpbase msg.cpp -mtune=core2 -auxbase msg -version -D__private_extern__=extern -o /tmp/ccpueNJh.s
+ignoring nonexistent directory "/home/tatsh/usr/x86_64-apple-darwin11/home/tatsh/usr/x86_64-apple-darwin11/usr/lib/gcc/x86_64-apple-darwin11/4.2.1/../../../../x86_64-apple-darwin11/include/c++/4.2.1"
+ignoring nonexistent directory "/home/tatsh/usr/x86_64-apple-darwin11/home/tatsh/usr/x86_64-apple-darwin11/usr/lib/gcc/x86_64-apple-darwin11/4.2.1/../../../../x86_64-apple-darwin11/include/c++/4.2.1/x86_64-apple-darwin11"
+ignoring nonexistent directory "/home/tatsh/usr/x86_64-apple-darwin11/home/tatsh/usr/x86_64-apple-darwin11/usr/lib/gcc/x86_64-apple-darwin11/4.2.1/../../../../x86_64-apple-darwin11/include/c++/4.2.1/backward"
+ignoring nonexistent directory "/home/tatsh/usr/x86_64-apple-darwin11/home/tatsh/usr/x86_64-apple-darwin11/usr/lib/gcc/x86_64-apple-darwin11/4.2.1/include"
+ignoring nonexistent directory "/home/tatsh/usr/x86_64-apple-darwin11/home/tatsh/usr/x86_64-apple-darwin11/usr/lib/gcc/x86_64-apple-darwin11/4.2.1/../../../../x86_64-apple-darwin11/include"
+ignoring nonexistent directory "/home/tatsh/usr/x86_64-apple-darwin11/System/Library/Frameworks"
+ignoring nonexistent directory "/home/tatsh/usr/x86_64-apple-darwin11/Library/Frameworks"
+#include "..." search starts here:
+#include <...> search starts here:
+ /home/tatsh/usr/x86_64-apple-darwin11/usr/local/include
+ /home/tatsh/usr/x86_64-apple-darwin11/usr/include
+End of search list.
+GNU C++ version 4.2.1 (Apple Inc. build 5666) (dot 3) (x86_64-apple-darwin11)
+        compiled by GNU C version 4.5.3.
+GGC heuristics: --param ggc-min-expand=150 --param ggc-min-heapsize=131072
+Compiler executable checksum: 9eb62f00fb2e439c9d3d1ba4c8db15f6
+msg.cpp:1:20: error: iostream: No such file or directory
+msg.cpp: In function ‘int main()’:
+msg.cpp:5: error: ‘cout’ was not declared in this scope
+msg.cpp:5: error: ‘endl’ was not declared in this scope
