@@ -1,2 +1,0 @@
-# APPLE LOCAL file 5901604
-MULTILIB_EXTRA_OPTS = isysroot/Developer/SDKs/MacOSX10.5.sdk
