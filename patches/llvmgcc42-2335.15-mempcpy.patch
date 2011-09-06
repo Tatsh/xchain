@@ -1,0 +1,11 @@
+--- gcc/config/darwin.c.orig	2011-09-06 02:27:38.000000000 -0500
++++ gcc/config/darwin.c	2011-09-06 02:27:13.000000000 -0500
+@@ -1576,7 +1576,7 @@
+ }
+ 
+ /* LLVM LOCAL begin */
+-extern char * mempcpy (char *dst, const char *src, size_t len);
++//extern char * mempcpy (char *dst, const char *src, size_t len);
+ char *darwin_build_sysroot_path(const char *sysroot, const char *path) {
+   char *str = NULL;
+   char *str1 = NULL;

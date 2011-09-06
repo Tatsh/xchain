@@ -1,0 +1,13 @@
+--- gcc/llvm-linker-hack.cpp.orig	2010-03-31 16:50:51.000000000 -0500
++++ gcc/llvm-linker-hack.cpp	2011-09-06 02:26:36.000000000 -0500
+@@ -94,8 +94,8 @@
+   
+   llvm::Type::getInt8Ty(llvm::getGlobalContext());
+ 
+-  llvm::PrettyStackTraceProgram::PrettyStackTraceProgram(0, 0);
+-  llvm::DIFactory::DIFactory(*static_cast<llvm::Module *>(0));
++  llvm::PrettyStackTraceProgram(0, 0);
++  llvm::DIFactory(*static_cast<llvm::Module *>(0));
+   std::string Err;
+   llvm::TargetRegistry::lookupTarget("", Err);
+ 
