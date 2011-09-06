@@ -55,6 +55,12 @@ case $target_cpu in
 	;;
 esac
 
+case $host_os in
+		linux*)
+				AC_DEFINE_UNQUOTED(CROSS_BIN_PREFIX, ["$target"])
+		;;
+esac
+
 # Checks for programs.
 AC_PROG_INSTALL
 AC_PROG_LN_S

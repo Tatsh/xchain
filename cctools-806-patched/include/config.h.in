@@ -11,6 +11,9 @@
 /* filesystem root of cross build environment */
 #undef CROSS_SYSROOT
 
+/* cross compiler binary prefix */
+#undef CROSS_BIN_PREFIX
+
 /* Define to 1 if using `alloca.c'. */
 #undef C_ALLOCA
 

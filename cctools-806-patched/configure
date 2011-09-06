@@ -3625,6 +3625,15 @@ $as_echo "#define DEFAULT_MACH_ARCH \"x86_64\"" >>confdefs.h
 	;;
 esac
 
+case $host_os in
+		linux*)
+				cat >>confdefs.h <<_ACEOF
+#define CROSS_BIN_PREFIX "$target"
+_ACEOF
+
+		;;
+esac
+
 # Checks for programs.
 # Find a good install program.  We prefer a C program (faster),
 # so one script is as good as another.  But avoid the broken or
@@ -5465,7 +5474,7 @@ rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
 fi
 rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
 
-for ac_func in atexit bzero fchdir ftruncate getattrlist getpagesize gettimeofday memchr memmove memset NSIsSymbolNameDefined qsort_r qsort realpath sqrt strcasecmp strchr strdup strerror strlcat strmode strncasecmp strrchr strstr strtol strtoul utime
+for ac_func in atexit bzero fchdir ftruncate getattrlist getpagesize gettimeofday memchr memmove memset NSIsSymbolNameDefined qsort_r qsort realpath sqrt strcasecmp strchr strdup strerror strlcat strmode strncasecmp strrchr strstr strtol strtoul utime _NSGetExecutablePath readlink
 do :
   as_ac_var=`$as_echo "ac_cv_func_$ac_func" | $as_tr_sh`
 ac_fn_c_check_func "$LINENO" "$ac_func" "$as_ac_var"
