@@ -93,6 +93,8 @@ $ export PATH="$PATH:/usr/$TARGET/usr/bin"
 
 BUILDING GCC
 Now you can proceed to build GCC, but it must be patched first. Patches are located in patches.
+$ wget http://opensource.apple.com/tarballs/gcc/gcc-5666.3.tar.gz
+$ tar xvf gcc-5666.3.tar.gz
 $ cd gcc-5666.3
 $ patch -p1 < ../patches/gcc-5666.3-cflags.patch
 
