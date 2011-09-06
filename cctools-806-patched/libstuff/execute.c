@@ -144,7 +144,7 @@ char *str)
  * http://dev.monetdb.org/hg/MonetDB/file/54ad354daff8/common/utils/mutils.c#l340
  */
 int _NSGetExecutablePath(char *buf, unsigned long *bufsize) {
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 	if (GetModuleFileName(NULL, buf, (DWORD)*bufsize) != 0) {
 		return strlen;
 	}
@@ -170,12 +170,14 @@ char *str)
 	char *p;
 	char *prefix, buf[MAXPATHLEN], resolved_name[PATH_MAX];
 	unsigned long bufsize;
-
+	
 	/*
 	 * Construct the prefix to the program running.
 	 */
 	bufsize = MAXPATHLEN;
 	p = buf;
+	memset(p, 0, MAXPATHLEN);
+	memset(resolved_name, 0, PATH_MAX);
 	i = _NSGetExecutablePath(p, &bufsize);
 	if(i == -1){
 	    p = allocate(bufsize);
@@ -186,7 +188,11 @@ char *str)
 	if(p != NULL)
 	    p[1] = '\0';
 
+#if defined(__APPLE__)
 	return(makestr(prefix, str, NULL));
+#else
+	return makestr(prefix, CROSS_BIN_PREFIX, "-", str, NULL);
+#endif
 }
 
 /*
