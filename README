@@ -183,7 +183,7 @@ $ mkdir llvm-obj
 $ cd llvm-obj
 $ CFLAGS="-m32" CXXFLAGS="$CFLAGS" "LDFLAGS="-m32" ../llvmgcc42-2335.15/llvmCore/configure --prefix=$PREFIX/usr --enable-optimized --disable-assertions --target=$TARGET
 $ make
-$ make install
+$ make install # optional
 $ cd ..
 
 This is somewhat intensive so if you don't have a powerful PC do not use -j flag with make.
@@ -249,11 +249,39 @@ WHAT WORKS FOR ME
 - CFLAGS="-O2 -msse2 -pipe -m32" for building llvm-GCC and regular GCC
 - make -j3 works for everything for me
 
+iPHONE
+TODO in full, but if you can follow the above, and switch MacOSX10.x.sdk for iPhoneOS4.3.sdk on your Mac (you can find it yourself), and then build LLVM-GCC with:
+$ ../llvmgcc42-2335.15/configure \
+--target=$TARGET \
+--with-sysroot=$PREFIX \
+--prefix=$PREFIX/usr \
+--enable-languages=objc,c++,obj-c++ \
+--disable-bootstrap \
+--enable--checking \
+--enable-llvm=$PWD/../llvm-obj \
+--enable-shared \
+--enable-static \
+--enable-libgomp \
+--disable-werror \
+--disable-multilib \
+--program-transform-name=/^[cg][^.-]*$/s/$/-4.2/ \
+--with-gxx-include-dir=$PREFIX/usr/include/c++/4.2.1 \
+--program-prefix=$TARGET-llvm- \
+--with-slibdir=$PREFIX/usr/lib \
+--with-ld=$PREFIX/usr/bin/$TARGET-ld64 \
+--with-as=$PREFIX/usr/bin/$TARGET-as \
+--with-ranlib=$PREFIX/usr/bin/$TARGET-ranlib \
+--with-lipo=$PREFIX/usr/bin/$TARGET-lipo \
+--enable-sjlj-exceptions
+$ make
+$ make install
+
+You will have a working compiler targetting iOS. Do note you need a jailbroken phone before any code would run. Works for me.
+
 TODO
 - Fix paths when invoked (sysroot issue, maybe --with-gxx-include-dir will fix):
   - Double search paths for C++: /home/tatsh/usr/x86_64-apple-darwin11/home/tatsh/usr/x86_64-apple-darwin11/usr/x86_64-apple-darwin11/include/c++/4.2.1/x86_64-apple-darwin11
 - ld warnings about arch maybe
-- Get ARM version to build, but that will be with llvm-gcc based on the iphone-dev project
 - distcc for Objective-C and C++
 - distcc with MacPorts
 - Get latest cctools to build on Linux (DONE except for cbtlibs, efitools, gprof)
