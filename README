@@ -3,7 +3,7 @@ http://devs.openttd.org/~truebrain/compile-farm/apple-darwin9.txt
 
 With these files you may build odcctools and GCC 4.0.1 targetting Darwin/OS X.
 This has been tested in the following environments:
-x86_64-pc-linux-gnu
+x86_64-pc-linux-gnu with GCC 4.5.3
 
 The following targets have been tested:
 i686-apple-darwin11
@@ -21,47 +21,77 @@ export TARGET=i686-apple-darwin11
 
 11 denotes Lion, 10 for Snow Leopard, and 9 for Leopard. These are mostly superficial. All code will run on 10.5 and greater.
 
-BUILDING CCTOOLS/ODCCTOOLS
-Apple's equivalent of binutils (now called cctools)
-Do not apply any patches in the patches directory! They are there for reference purposes only.
+Decide your prefix directory and set it to a variable.
+export PREFIX=/usr/$TARGET
+mkdir $PREFIX
+cd $PREFIX
 
-$ cd cctools-806-patched
-$ LDFLAGS="-m32" CFLAGS="-m32" ./configure --prefix=/usr/$TARGET --target=$TARGET --with-sysroot=/usr/$TARGET
-$ make
-$ make install
+In ~/.bashrc or similar you may want:
+export DARWIN_PREFIX=<prefix you chose>
 
-We need ar and ranlib from odcctools-9.2 due to a bug, and we need ld64.
-$ cd ../odcctools-9.2-ld-only-required
-$ LDFLAGS="-m32" CFLAGS="-m32" ./configure --prefix=/usr/$TARGET --target=$TARGET --with-sysroot=/usr/$TARGET --enable-ld64
-$ make
-$ make install
+PREPARE YOUR PREFIX
+You will need a copy of an SDK directory to begin. You can choose any version past 10.4u really but I suppose only if you need new things in Lion would copy Lion (and that requires Lion itself of course). I expect that you are doing most development on the Mac anyway so therefore your compiler settings in Xcode will decide support level.
 
-Set PATH to have your new tools.
-$ export PATH="$PATH:/usr/$TARGET/bin"
+mkdir $PREFIX/SDKs
+cd $PREFIX/SDKs
+
+If you have Snow Leopard:
+export SDK=MacOSX10.6.sdk
+scp -r myname@mymac:/Developer/SDKs/MacOSX10.6.sdk .
+
+If you have Lion (and want latest headers):
+export SDK=MacOSX10.7.sdk
+scp -r myname@mymac:/Developer/SDKs/MacOSX10.7.sdk .
+
+export 
+cd $PREFIX
+
+Note that we are going to put stuff in this .sdk directory. Anything we build from here will be placed inside. So we are going to create symlinks to its directories in $PREFIX.
+
+ln -s SDKs/$SDK/Developer
+ln -s SDKs/$SDK/Library
+ln -s SDKs/$SDK/System
+ln -s SDKs/$SDK/usr
+
+Delete any non-private frameworks. None of these are necessary.
+rm -R Library/Frameworks
+
+Create a symlink to the private Frameworks directory. We cannot have both like in OS X.
+cd Library
+ln -s ../System/Library/Frameworks
+cd ..
+
+usr is of great importantance to us in the next steps. It's where cctools and gcc will go. So yes, this usr directory (and possibly Library) will eventually be 'dirty' and non-equivalent to the one in OS X (and in the next steps we will overwrite files in the directory).
+
+Never copy the SDK directory back to OS X for any reason.
+
+BUILDING CCTOOLS
+From the cloned directory:
+cd cctools-806
+CFLAGS="-m32" LDFLAGS="-m32" ./configure --prefix=$PREFIX/usr --target=$TARGET --with-sysroot=$PREFIX
+make
+make install
+cd ..
+
+Note -m32. Everything will be 32-bit. Building for 64-bit is not supported. Do not try optimisation flags. ranlib is especially sensitive.
+
+Ignore ALL warnings. There will be many.
+
+BUILDING LD64
+To build GCC we cannot use what's known as 'classic' ld. We have to use ld64 (even though we are not going to build it in 64-bit mode). For the moment, use odcctools-9.2 from the iphone-dev project (this version is patched):
+cd odcctools-9.2-ld
+CFLAGS="-m32" LDFLAGS="-m32" ./configure --prefix=$PREFIX/usr --target=$TARGET --with-sysroot=$PREFIX --enable-ld64
+make
+cd ld64
+make install
+cd ../..
+
+It is a monster so don't be surprised if it takes a bit to compile. And definitely do not try optimisation flags here either.
+
+Set PATH to have your new tools. You may want to add this to your ~/.bashrc or similar.
+$ export PATH="$PATH:/usr/$TARGET/usr/bin"
 
 BUILDING GCC
-Before you can build GCC you will need to get the Mac OS X SDK headers. The best place is right off your Mac with scp (tested with default install of Xcode 4.1.1):
-$ scp -r myname@mymac:/Developer/SDKs .
-
-You will now have a directory SDKs present. You only need 10.6 or 10.7, so:
-$ rm -R SDKs/MacOSX10.6.sdk
-
-You also do not need anything in the Library section since we cannot have both private and public Libraries in the toolchain like in OS X. If SDKS/[directory]/Library/Frameworks is not a symlink, do the following:
-$ rm -fR SDKs/MacOSX10.7.sdk/Library/Frameworks
-$ ln -s SDKs/MacOSX10.7.sdk/System/Frameworks SDKs/MacOSX10.7.sdk/Library/Frameworks
-
-Move this into where your toolchain lives:
-$ mv SDKs /usr/$TARGET
-
-Set up proper symlinks for GCC:
-$ export LAST=`pwd`
-$ cd /usr/$TARGET
-$ ln -s SDKs/Developer
-$ ln -s SDKs/Library
-$ ln -s SDKS/System
-$ ln -s SDKs/usr
-$ cd $LAST
-
 Now you can proceed to build GCC, but it must be patched first. Patches are located in patches.
 $ cd gcc-5666.3
 $ patch -p1 < ../patches/gcc-5666.3-cflags.patch
@@ -76,28 +106,25 @@ $ mkdir gcc-build
 $ cd gcc-build
 
 $ CFLAGS="-m32" CXXFLAGS="$CFLAGS" LDFLAGS="-m32" \
-../gcc-5666.3/configure --prefix=/usr/$TARGET \
+../gcc-5666.3/configure --prefix=$PREFIX/usr \
 --disable-checking \
 --enable-languages=c,objc,c++,obj-c++ \
---with-as=/usr/$TARGET/bin/$TARGET-as \
---with-ld=/usr/$TARGET/bin/$TARGET-ld64 \
+--with-as=$PREFIX/usr/bin/$TARGET-as \
+--with-ld=$PREFIX/usr/bin/$TARGET-ld64 \
 --target=$TARGET \
---with-sysroot=/usr/$TARGET \
+--with-sysroot=$PREFIX \
 --enable-static \
 --enable-shared \
 --enable-nls \
 --disable-multilib \
 --disable-werror \
---with-ranlib=/usr/$TARGET/bin/$TARGET-ranlib \
---with-lipo=/usr/$TARGET/bin/$TARGET-lipo
+--enable-libgomp \
+--with-gxx-include-dir=$PREFIX/usr/include/c++/4.2.1 \
+--with-ranlib=$PREFIX/usr/bin/$TARGET-ranlib \
+--with-lipo=$PREFIX/usr/bin/$TARGET-lipo
 
-Optimisations do work (most of the time), so if you want to, use:
-CFLAGS="-m32 -O2 -msse2" # etc
-
-These also may work for you:
---enable-libgomp
---with-system-zlib
---without-included-gettext
+Optimisations do work here (most of the time). You can try to configure with:
+CFLAGS="-m32 -O2 -msse2"
 
 No, there is no Java (GCJ) or Fortran!
 
@@ -107,84 +134,129 @@ $ make install
 
 Sometimes you may get an issue about ranlib not working or lipo, which is why --with-ranlib and --with-lipo are appended to ./configure. However, you may have to run make again or not use a -j flag. I would recommend not using the -j flag anyway just to ease debugging of any issues. Seriously, try doing `make` over and over until it does work.
 
-For ranlib, make sure that $TARGET-ranlib outputs exactly as follows:
-$ $TARGET-ranlib
-x86_64-apple-darwin11-ranlib: no archives specified
-Usage: x86_64-apple-darwin11-ranlib [-sactfqLT] [-] archive [...]
+If ranlib has a buffer overflow, it is probably because you enabled optimisation flags.
 
-If it does not, it is running in libtool mode and you have the wrong version installed.
-
-You may get an issue about libiberty.an not being able to be installed. You can safely ignore this error for now.
-
-Hack to fix the include path:
-$ cd /usr/$TARGET
-$ mkdir -p local
-$ cd local
+HACK TO FIX INCLUDE PATH
+$ export LAST=`pwd`
+$ cd $PREFIX/usr/local
 $ ln -s ../lib/gcc/$TARGET/4.2.1/include
+$ cd $LAST
 
-Test it out. And get familiar with OS X's GCC (particularly -framework). An example Objective-C file msg.m is included.
-
+TEST GCC
+From the cloned source:
 $ $TARGET-gcc -o msg msg.m \
 -fconstant-string-class=NSConstantString \
 -lobjc -framework Foundation
 
 Test C++:
-$ $TARGET-g++ -o msgcpp msg.cpp \
--I/usr/$TARGET/usr/include/c++/4.2.1
+$TARGET-g++ -o msgcpp msg.cpp -I$PREFIX/usr/include/c++/4.2.1
 
-I know, that's a weird -I flag. For now, just use an alias for both [arch]-gcc and [arch]-g++ with it.
+I know, that's a weird -I flag. For now, just use an alias for [arch]-g++ with it. You can safely alias $TARGET-gcc as well with -fconstant-string-class=NSConstantString even if you are compiling C.
 
 $ file msg
 msg: Mach-O executable i386
 
-$ scp msg msg myname@mymac
+$ scp msg myname@mymac:
 $ ssh myname@mymac ./msg
 2011-09-03 03:51:52.887 msg[31266:1007] Are you John smith?
 2011-09-03 03:51:52.889 msg[31266:1007] My message
+$ scp msgcpp myname@mymac:
 $ ssh myname@mymac ./msgcpp
 This was compiled on a non-Mac!
 
 Have fun.
 
-Distcc for Gentoo (not for Objective-C or C++ yet due to include path issues):
+OPTIONAL: BUILDING LLVM-GCC
+Because LLVM is the future right?
+
+First, force the use of ld64 everywhere (yes you can keep this as permanent):
+$ export LAST=`pwd`
+$ cd $PREFIX/usr/bin
+$ mv $TARGET-ld $TARGET-ld.classic
+$ ln -s $TARGET-ld64 $TARGET-ld
+$ cd $LAST
+
+You need to build Apple's LLVM first.
+$ wget http://opensource.apple.com/tarballs/llvmgcc42/llvmgcc42-2335.15.tar.gz
+$ tar xvf llvmgcc42-2335.15.tar.gz
+$ mkdir llvm-obj
+$ cd llvm-obj
+$ CFLAGS="-m32" CXXFLAGS="$CFLAGS" "LDFLAGS="-m32" ../llvmgcc42-2335.15/llvmCore/configure --prefix=$PREFIX/usr --enable-optimized --disable-assertions --target=$TARGET
+$ make
+$ make install
+$ cd ..
+
+This is somewhat intensive so if you don't have a powerful PC do not use -j flag with make.
+
+Next, proceed to build GCC itself, but you need to patch one thing (at least needed GCC 4.5):
+$ cd llvmgcc42-2335.15
+$ patch -p0 < ../patches/llvmgcc42-2335.15-redundant.patch
+$ patch -p0 < ../patches/llvmgcc42-2335.15-mempcpy.patch
+$ cd ..
+
+Build outside the directory.
+
+$ mkdir llvmgcc-build
+$ cd llvmgcc-build
+$ CFLAGS="-m32" CXXFLAGS="$CFLAGS" LDFLAGS="-m32" \
+../llvmgcc42-2335.15/configure \
+--target=$TARGET \
+--with-sysroot=$PREFIX \
+--prefix=$PREFIX/usr \
+--enable-languages=objc,c++,obj-c++ \
+--disable-bootstrap \
+--enable--checking \
+--enable-llvm=$PWD/../llvm-obj \
+--enable-shared \
+--enable-static \
+--enable-libgomp \
+--disable-werror \
+--disable-multilib \
+--program-transform-name=/^[cg][^.-]*$/s/$/-4.2/ \
+--with-gxx-include-dir=$PREFIX/usr/include/c++/4.2.1 \
+--program-prefix=$TARGET-llvm- \
+--with-slibdir=$PREFIX/usr/lib \
+--with-ld=$PREFIX/usr/bin/$TARGET-ld64 \
+--with-tune=generic \
+--with-as=$PREFIX/usr/bin/$TARGET-as \
+--with-ranlib=$PREFIX/usr/bin/$TARGET-ranlib \
+--with-lipo=$PREFIX/usr/bin/$TARGET-lipo
+$ make
+$ make install
+
+Test:
+$ export LAST=`pwd`
+$ cd $PREFIX/usr/bin
+$ ln -s $TARGET-as as
+$ cd $LAST
+$ cd ..
+$ PATH="$PREFIX/usr/bin" $TARGET-llvm-gcc -o msg msg.m \
+-fconstant-string-class=NSConstantString \
+-lobjc -framework Foundation
+$ PATH="$PREFIX/usr/bin" $TARGET-llvm-g++ -o msgcpp msg.cpp -I$PREFIX/usr/include/c++/4.2.1
+
+I know, yet again C++ paths fail to work.
+
+Ignore all warnings.
+
+DISTCC
+Distcc for Gentoo (not for Objective-C or C++ yet due to default argument issues):
 Follow these instructions:
 http://www.gentoo.org/doc/en/distcc.xml
 http://www.gentoo.org/doc/en/cross-compiling-distcc.xml (with your target being OS X Prefix)
 
-Things to do:
+WHAT WORKS FOR ME
+- CFLAGS="-O2 -msse2 -pipe -m32" for building llvm-GCC and regular GCC
+- make -j3 works for everything for me
+
+TODO
+- Fix paths when invoked (sysroot issue, maybe --with-gxx-include-dir will fix):
+  - Double search paths for C++: /home/tatsh/usr/x86_64-apple-darwin11/home/tatsh/usr/x86_64-apple-darwin11/usr/x86_64-apple-darwin11/include/c++/4.2.1/x86_64-apple-darwin11
+- ld warnings about arch maybe
 - Get ARM version to build, but that will be with llvm-gcc based on the iphone-dev project
 - distcc for Objective-C and C++
 - distcc with MacPorts
-- Get p5666 version of GCC to build on Linux (DONE except for libiberty.an issue on make install)
-- Get latest cctools to build on Linux (DONE except for ar, ranlib, cbtlibs, efitools, gprof)
+- Get latest cctools to build on Linux (DONE except for cbtlibs, efitools, gprof)
 - Clang
 - HOWTO generate fat binaries (maybe)
 - HOWTO generate .app directory, plist, Resources, etc (nib files and CoreData very unlikely)
-- Fix paths when invoked (sysroot issue):
-$ $TARGET-g++ -v -o msgcpp msg.cpp
-Using built-in specs.
-Target: x86_64-apple-darwin11
-Configured with: ../gcc-5666.3/configure --disable-checking --enable-languages=c,objc,c++,obj-c++ --with-as=/home/tatsh/usr/x86_64-apple-darwin11/usr/bin/x86_64-apple-darwin11-as -with-ld=/home/tatsh/usr/x86_64-apple-darwin11/usr/bin/x86_64-apple-darwin11-ld64 --target=x86_64-apple-darwin11 --with-sysroot=/home/tatsh/usr/x86_64-apple-darwin11 --enable-shared --disable-multilib --with-ranlib=/home/tatsh/usr/x86_64-apple-darwin11/usr/bin/x86_64-apple-darwin11-ranlib --with-lipo=/home/tatsh/usr/x86_64-apple-darwin11/usr/bin/x86_64-apple-darwin11-lipo --enable-nls --enable-libgomp --disable-werror --prefix=/home/tatsh/usr/x86_64-apple-darwin11/usr --enable-static
-Thread model: posix
-gcc version 4.2.1 (Apple Inc. build 5666) (dot 3)
- /home/tatsh/usr/x86_64-apple-darwin11/usr/libexec/gcc/x86_64-apple-darwin11/4.2.1/cc1plus -quiet -v -D__DYNAMIC__ msg.cpp -fPIC -mmacosx-version-min=10.4 -quiet -dumpbase msg.cpp -mtune=core2 -auxbase msg -version -D__private_extern__=extern -o /tmp/ccpueNJh.s
-ignoring nonexistent directory "/home/tatsh/usr/x86_64-apple-darwin11/home/tatsh/usr/x86_64-apple-darwin11/usr/lib/gcc/x86_64-apple-darwin11/4.2.1/../../../../x86_64-apple-darwin11/include/c++/4.2.1"
-ignoring nonexistent directory "/home/tatsh/usr/x86_64-apple-darwin11/home/tatsh/usr/x86_64-apple-darwin11/usr/lib/gcc/x86_64-apple-darwin11/4.2.1/../../../../x86_64-apple-darwin11/include/c++/4.2.1/x86_64-apple-darwin11"
-ignoring nonexistent directory "/home/tatsh/usr/x86_64-apple-darwin11/home/tatsh/usr/x86_64-apple-darwin11/usr/lib/gcc/x86_64-apple-darwin11/4.2.1/../../../../x86_64-apple-darwin11/include/c++/4.2.1/backward"
-ignoring nonexistent directory "/home/tatsh/usr/x86_64-apple-darwin11/home/tatsh/usr/x86_64-apple-darwin11/usr/lib/gcc/x86_64-apple-darwin11/4.2.1/include"
-ignoring nonexistent directory "/home/tatsh/usr/x86_64-apple-darwin11/home/tatsh/usr/x86_64-apple-darwin11/usr/lib/gcc/x86_64-apple-darwin11/4.2.1/../../../../x86_64-apple-darwin11/include"
-ignoring nonexistent directory "/home/tatsh/usr/x86_64-apple-darwin11/System/Library/Frameworks"
-ignoring nonexistent directory "/home/tatsh/usr/x86_64-apple-darwin11/Library/Frameworks"
-#include "..." search starts here:
-#include <...> search starts here:
- /home/tatsh/usr/x86_64-apple-darwin11/usr/local/include
- /home/tatsh/usr/x86_64-apple-darwin11/usr/include
-End of search list.
-GNU C++ version 4.2.1 (Apple Inc. build 5666) (dot 3) (x86_64-apple-darwin11)
-        compiled by GNU C version 4.5.3.
-GGC heuristics: --param ggc-min-expand=150 --param ggc-min-heapsize=131072
-Compiler executable checksum: 9eb62f00fb2e439c9d3d1ba4c8db15f6
-msg.cpp:1:20: error: iostream: No such file or directory
-msg.cpp: In function ‘int main()’:
-msg.cpp:5: error: ‘cout’ was not declared in this scope
-msg.cpp:5: error: ‘endl’ was not declared in this scope
