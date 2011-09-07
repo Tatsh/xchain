@@ -1,6 +1,0 @@
-ARCH	=	i386
-
-CFILES_i386	=	i386.c
-MYDEFS_i386	=	-DI386 -Di486 -Di586 -Di686
-MYLIBS_i386	=	-lstuff
-
