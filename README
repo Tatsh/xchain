@@ -66,12 +66,17 @@ usr is of great importantance to us in the next steps. It's where cctools and gc
 Never copy the SDK directory back to OS X for any reason.
 
 BUILDING CCTOOLS
-From the cloned directory:
-cd cctools-806
-CFLAGS="-m32" LDFLAGS="-m32" ./configure --prefix=$PREFIX/usr --target=$TARGET --with-sysroot=$PREFIX
-make
-make install
-cd ..
+You really should only apply the patch if you are not on OS X/Darwin, but I have not tested any of this on OS X/Darwin yet.
+
+$ wget http://opensource.apple.com/tarballs/cctools/cctools-806.tar.gz
+$ tar xvf cctools-806.tar.gz
+$ patch -p0 < patches/cctools-806-nondarwin.patch
+$ cd cctools-806
+$ chmod +x configure
+$ CFLAGS="-m32" LDFLAGS="-m32" ./configure --prefix=$PREFIX/usr --target=$TARGET --with-sysroot=$PREFIX
+$ make
+$ make install
+$ cd ..
 
 Note -m32. Everything will be 32-bit. Building for 64-bit is not supported. Do not try optimisation flags. ranlib is especially sensitive.
 
@@ -80,11 +85,11 @@ Ignore ALL warnings. There will be many.
 BUILDING LD64
 To build GCC we cannot use what's known as 'classic' ld. We have to use ld64 (even though we are not going to build it in 64-bit mode). For the moment, use odcctools-9.2 from the iphone-dev project (this version is patched):
 cd odcctools-9.2-ld
-CFLAGS="-m32" LDFLAGS="-m32" ./configure --prefix=$PREFIX/usr --target=$TARGET --with-sysroot=$PREFIX --enable-ld64
-make
-cd ld64
-make install
-cd ../..
+$ CFLAGS="-m32" LDFLAGS="-m32" ./configure --prefix=$PREFIX/usr --target=$TARGET --with-sysroot=$PREFIX --enable-ld64
+$ make
+$ cd ld64
+$ make install
+$ cd ../..
 
 It is a monster so don't be surprised if it takes a bit to compile. And definitely do not try optimisation flags here either.
 
