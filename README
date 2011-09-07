@@ -17,14 +17,14 @@ These do not work (without extra work):
 arm-apple-darwin
 
 Decide your target, and export:
-export TARGET=i686-apple-darwin11
+$ export TARGET=i686-apple-darwin11
 
 11 denotes Lion, 10 for Snow Leopard, and 9 for Leopard. These are mostly superficial. All code will run on 10.5 and greater.
 
 Decide your prefix directory and set it to a variable.
-export PREFIX=/usr/$TARGET
-mkdir $PREFIX
-cd $PREFIX
+$ export PREFIX=/usr/$TARGET
+$ mkdir $PREFIX
+$ cd $PREFIX
 
 In ~/.bashrc or similar you may want:
 export DARWIN_PREFIX=<prefix you chose>
@@ -32,34 +32,36 @@ export DARWIN_PREFIX=<prefix you chose>
 PREPARE YOUR PREFIX
 You will need a copy of an SDK directory to begin. You can choose any version past 10.4u really but I suppose only if you need new things in Lion would copy Lion (and that requires Lion itself of course). I expect that you are doing most development on the Mac anyway so therefore your compiler settings in Xcode will decide support level.
 
-mkdir $PREFIX/SDKs
-cd $PREFIX/SDKs
+$ mkdir $PREFIX/SDKs
+$ cd $PREFIX/SDKs
 
 If you have Snow Leopard:
-export SDK=MacOSX10.6.sdk
-scp -r myname@mymac:/Developer/SDKs/MacOSX10.6.sdk .
+$ export SDK=MacOSX10.6.sdk
+$ scp -r myname@mymac:/Developer/SDKs/MacOSX10.6.sdk .
 
 If you have Lion (and want latest headers):
-export SDK=MacOSX10.7.sdk
-scp -r myname@mymac:/Developer/SDKs/MacOSX10.7.sdk .
+$ export SDK=MacOSX10.7.sdk
+$ scp -r myname@mymac:/Developer/SDKs/MacOSX10.7.sdk .
 
-export 
-cd $PREFIX
+$ cd $PREFIX
 
 Note that we are going to put stuff in this .sdk directory. Anything we build from here will be placed inside. So we are going to create symlinks to its directories in $PREFIX.
 
-ln -s SDKs/$SDK/Developer
-ln -s SDKs/$SDK/Library
-ln -s SDKs/$SDK/System
-ln -s SDKs/$SDK/usr
+$ ln -s SDKs/$SDK/Developer
+$ ln -s SDKs/$SDK/Library
+$ ln -s SDKs/$SDK/System
+$ ln -s SDKs/$SDK/usr
 
-Delete any non-private frameworks. None of these are necessary.
-rm -R Library/Frameworks
+Delete any of YOUR frameworks (these are all from 3rd parties, not Apple). None of these are necessary.
+$ rm -R Library/Frameworks
 
-Create a symlink to the private Frameworks directory. We cannot have both like in OS X.
-cd Library
-ln -s ../System/Library/Frameworks
-cd ..
+Create a symlink to the Apple Frameworks directory.
+$ cd Library
+$ ln -s ../System/Library/Frameworks
+$ cd ..
+
+Later on, you can copy the 3rd party frameworks from your Mac to $PREFIX/Library/Frameworks:
+$ scp -r /Developer/SDKs/MacOSX10.6.sdk/Library/Frameworks/* $PREFIX/Library/Frameworks
 
 usr is of great importantance to us in the next steps. It's where cctools and gcc will go. So yes, this usr directory (and possibly Library) will eventually be 'dirty' and non-equivalent to the one in OS X (and in the next steps we will overwrite files in the directory).
 
