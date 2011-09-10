@@ -1,20 +1,18 @@
 Based on original documentation by OpenTTD team
 http://devs.openttd.org/~truebrain/compile-farm/apple-darwin9.txt
 
-With these files you may build odcctools and GCC 4.0.1 targetting Darwin/OS X.
+With these files you may build odcctools and GCC 4.2.1 targetting Darwin/OS X.
 This has been tested in the following environments:
 x86_64-pc-linux-gnu with GCC 4.5.3
 
 The following targets have been tested:
 i686-apple-darwin11
 x86_64-apple-darwin11
+arm-apple-darwin (requires iOS SDK)
 
 These might work:
 ppc-apple-darwin11
 ppc64-apple-darwin11
-
-These do not work (without extra work):
-arm-apple-darwin
 
 Decide your target, and export:
 $ export TARGET=i686-apple-darwin11
