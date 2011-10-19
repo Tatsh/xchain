@@ -69,7 +69,7 @@ Use `mount` and `umount` as root or with `sudo` (probably easier with `sudo`). E
 
     cd where-my-xcode-dmg-lives
     java -jar path/to/dmgextractor.jar xcode_4.2_and_ios_5_sdk_for_snow_leopard.dmg my.iso (click OK on any prompts)
-    # if on Gentoo, you can use dmgextractor xcode_4.2_and_ios_5_sdk_for_snow_leopard.dmg my.iso
+    # if on Gentoo, you can use `dmgextractor xcode_4.2_and_ios_5_sdk_for_snow_leopard.dmg` my.iso
     7z x my.iso
     mount -t hfsplus disk\ image.hfs /mnt/tmp
     xar -f /mnt/tmp/Packages/MacOSX10.6.pkg Payload
@@ -117,13 +117,13 @@ Later on, you can copy the 3rd party frameworks from your Mac to $PREFIX/Library
 
     scp -r /Developer/SDKs/MacOSX10.6.sdk/Library/Frameworks/* $PREFIX/Library/Frameworks
 
-`usr` is of great importantance to us in the next steps. It's where cctools and GCC will go. So yes, this usr directory (and possibly Library) will eventually be 'dirty' and non-equivalent to the one in OS X (and in the next steps we will overwrite files in the directory).
+`usr` is of great importantance to us in the next steps. It's where cctools and GCC will go. So yes, this `usr` directory (and possibly `Library`) will eventually be 'dirty' and non-equivalent to the one in OS X (and in the next steps we will overwrite files in the directory).
 
 Never copy the SDK directory back to OS X for any reason.
 
 # Building cctools
 
-You really should only apply the patch if you are not on OS X/Darwin, but I have not tested any of this on OS X/Darwin yet.
+You really should only apply the patch if you are not on OS X/Darwin, because I have not tested any of this on OS X/Darwin yet.
 
     wget http://opensource.apple.com/tarballs/cctools/cctools-806.tar.gz
     tar xvf cctools-806.tar.gz
@@ -137,11 +137,11 @@ You really should only apply the patch if you are not on OS X/Darwin, but I have
 
 Note `-m32`. Everything will be 32-bit. Building for 64-bit is not supported (but using 32-bit to build 64-bit binaries is). Do not try optimisation flags. `ranlib` is especially sensitive.
 
-Ignore ALL warnings. There will be many (or you can use `-w` for a CFLAG).
+Ignore ALL warnings. There will be many (or you can use `-w` for a `CFLAG`).
 
 # Building ld64
 
-To build GCC we cannot use what's known as 'classic' ld. We have to use `ld64` (even though we are not going to build it in 64-bit mode). For the moment, use odcctools-9.2 from the iphone-dev project (the version in this repository is patched for GCC 4.5):
+To build GCC we cannot use what's known as 'classic' `ld`. We have to use `ld64` (even though we are not going to build it in 64-bit mode). For the moment, use odcctools-9.2 from the iphone-dev project (the version in this repository is patched for GCC 4.5):
 
     cd odcctools-9.2-ld
     CFLAGS="-m32" LDFLAGS="-m32" ./configure --prefix=$PREFIX/usr --target=$TARGET --with-sysroot=$PREFIX --enable-ld64
@@ -169,10 +169,9 @@ Apply if you are annoyed by the default directory structure:
 
     patch -p1 < ../patches/gcc-5666.3-tooldir.patch
 
-    cd ..
-
 After patching, I recommend building outside of the source of GCC.
 
+    cd ..
     mkdir gcc-build
     cd gcc-build
 
@@ -228,7 +227,7 @@ Test C++:
 
     $TARGET-g++ -o msgcpp msg.cpp -I$PREFIX/usr/include/c++/4.2.1
 
-I know, that's a weird -I flag. For now, just use an alias for `[arch]-g++` with it. You can safely alias `$TARGET-gcc` as well with `-fconstant-string-class=NSConstantString` even if you are compiling C.
+I know, that's a weird `-I` flag. For now, just use an alias for `$TARGET-g++` with it. You can safely alias `$TARGET-gcc` as well with `-fconstant-string-class=NSConstantString` even if you are compiling C.
 
     file msg
     
@@ -255,7 +254,7 @@ Because LLVM is the future right?
 
 First, force the use of ld64 everywhere (yes you can keep this as permanent):
 
-    export LAST=`pwd`
+    export LAST=$PWD
     cd $PREFIX/usr/bin
     mv $TARGET-ld $TARGET-ld.classic
     ln -s $TARGET-ld64 $TARGET-ld
@@ -267,7 +266,12 @@ You need to build Apple's LLVM first.
     tar xvf llvmgcc42-2335.15.tar.gz
     mkdir llvm-obj
     cd llvm-obj
-    CFLAGS="-m32" CXXFLAGS="$CFLAGS" LDFLAGS="-m32" ../llvmgcc42-2335.15/llvmCore/configure --prefix=$PREFIX/usr --enable-optimized --disable-assertions --target=$TARGET
+    CFLAGS="-m32" CXXFLAGS="$CFLAGS" LDFLAGS="-m32" \
+        ../llvmgcc42-2335.15/llvmCore/configure \
+        --prefix=$PREFIX/usr \
+        --enable-optimized \
+        --disable-assertions \
+        --target=$TARGET
     make
     make install # optional
     cd ..
@@ -313,15 +317,16 @@ Build outside the directory.
 
 Test:
 
-  export LAST=$PWD
-  cd $PREFIX/usr/bin
-  ln -s $TARGET-as as
-  cd $LAST
-  cd ..
-  PATH="$PREFIX/usr/bin" $TARGET-llvm-gcc -o msg msg.m \
-      -fconstant-string-class=NSConstantString \
-      -lobjc -framework Foundation
-  PATH="$PREFIX/usr/bin" $TARGET-llvm-g++ -o msgcpp msg.cpp -I$PREFIX/usr/include/c++/4.2.1
+    export LAST=$PWD
+    cd $PREFIX/usr/bin
+    ln -s $TARGET-as as
+    cd $LAST
+    cd ..
+    PATH="$PREFIX/usr/bin" $TARGET-llvm-gcc -o msg msg.m \
+        -fconstant-string-class=NSConstantString \
+        -lobjc -framework Foundation
+    PATH="$PREFIX/usr/bin" $TARGET-llvm-g++ -o msgcpp msg.cpp \
+        -I$PREFIX/usr/include/c++/4.2.1
 
 I know, yet again C++ paths fail to work.
 
@@ -415,15 +420,16 @@ Also note that the minimum version to run any code is iOS 3.0 by default. To get
         -I$PREFIX/usr/include/c++/4.2.1/armv6-apple-darwin10 \
         -miphoneos-version-min=2.0
 
-Also note that these are not univeral binaries, even if you use -force_cpusubtype_ALL. These are armv6.
+Also note that these are not univeral binaries, even if you use `-force_cpusubtype_ALL`. These are armv6.
 
 # Generate fat binary
 
 Compile both architectures:
 
-    x86_64-apple-darwin11-g++ -o msg.x86_64 -I$PREFIX/usr/include/c++/4.2.1
+    export TARGET=x86_64-apple-darwin11
+    $TARGET-g++ -o msg.x86_64 -I$PREFIX/usr/include/c++/4.2.1
     export TARGET=arm-apple-darwin
-    arm-apple-darwin-g++ -o msg.arm \
+    $TARGET-g++ -o msg.arm \
         -I$PREFIX/usr/include/c++/4.2.1 \
         -I$PREFIX/usr/include/c++/4.2.1/armv6-apple-darwin10
 
@@ -465,11 +471,11 @@ Output:
 
 # Todo
 
-* Fix paths when invoked (sysroot issue, maybe --with-gxx-include-dir will fix):
-  * Double search paths for C++: /home/tatsh/usr/x86_64-apple-darwin11/home/tatsh/usr/x86_64-apple-darwin11/usr/x86_64-apple-darwin11/include/c++/4.2.1/x86_64-apple-darwin11
-* ld warnings about arch maybe
+* Fix paths when invoked (sysroot issue, maybe `--with-gxx-include-dir` will fix):
+  * Double search paths for C++: `/home/tatsh/usr/x86_64-apple-darwin11/home/tatsh/usr/x86_64-apple-darwin11/usr/x86_64-apple-darwin11/include/c++/4.2.1/x86_64-apple-darwin11`
+* `ld` warnings about arch maybe
 * distcc for Objective-C and C++
 * distcc with MacPorts
-* Get latest cctools to build on Linux (DONE except for cbtlibs, efitools, gprof)
+* Get latest cctools to build on Linux (DONE except for cbtlibs, efitools, gprof; these are probably unnecessary)
 * Clang
 * HOWTO generate .app directory, plist, Resources, etc (nib files and CoreData impossible without Mac?)
