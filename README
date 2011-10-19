@@ -28,6 +28,8 @@ In ~/.bashrc or similar you may want:
 export DARWIN_PREFIX=<prefix you chose>
 
 PREPARE YOUR PREFIX
+If you don't have a Mac, skip this and read PREPARE YOUR PREFIX (NO MAC). Even if you have a Mac, the no-Mac method is cleaner than using scp but not as easy.
+
 You will need a copy of an SDK directory to begin. You can choose any version past 10.4u really but I suppose only if you need new things in Lion would copy Lion (and that requires Lion itself of course). I expect that you are doing most development on the Mac anyway so therefore your compiler settings in Xcode will decide support level.
 
 $ mkdir $PREFIX/SDKs
@@ -35,11 +37,43 @@ $ cd $PREFIX/SDKs
 
 If you have Snow Leopard:
 $ export SDK=MacOSX10.6.sdk
-$ scp -r myname@mymac:/Developer/SDKs/MacOSX10.6.sdk .
+$ scp -r myname@mymac:/Developer/SDKs/$SDK .
 
 If you have Lion (and want latest headers):
 $ export SDK=MacOSX10.7.sdk
-$ scp -r myname@mymac:/Developer/SDKs/MacOSX10.7.sdk .
+$ scp -r myname@mymac:/Developer/SDKs/$SDK .
+
+PREPARE YOUR PREFIX (NO MAC)
+If you are copying from Mac with scp, skip to CONTINUE PREPARE YOUR PREFIX WITH SCP.
+
+Download the DMG from Apple for Xcode, any version. You need to have the following:
+- Linux kernel built with HFS+ file system driver
+- Catacombae DMGExtractor (requires Java) http://sourceforge.net/projects/catacombae/
+- p7zip
+- xar
+- cpio
+
+Note that # denotes root (prepend sudo if you use that). Example here is with Xcode 4.2. Replace /mnt/tmp with your own mount point.
+
+$ cd where-my-xcode-dmg-lives
+$ java -jar path/to/dmgextractor.jar xcode_4.2_and_ios_5_sdk_for_snow_leopard.dmg my.iso (click OK on any prompts)
+$ 7z x my.iso
+# mount -t hfsplus disk\ image.hfs /mnt/tmp
+$ xar -f /mnt/tmp/Packages/MacOSX10.6.pkg Payload
+$ cpio -i < Payload
+# umount /mnt/tmp
+
+You will now have an SDKs directory, but it needs fixing.
+
+$ cd SDKs/MacOSX10.6.sdk
+$ rm Library/Frameworks
+$ ln -s System/Library/Frameworks Library
+$ mv Developer/usr/llvm-gcc-4.2 usr
+$ rm -r Developer/usr
+$ ln -s usr Developer
+
+$ cd ../..
+$ cp -r SDKs $PREFIX
 
 $ cd $PREFIX
 
@@ -50,6 +84,9 @@ $ ln -s SDKs/$SDK/Library
 $ ln -s SDKs/$SDK/System
 $ ln -s SDKs/$SDK/usr
 
+If you used the no-Mac method, skip to BUILDING CCTOOLS.
+
+CONTINUE PREPARE YOUR PREFIX WITH SCP
 Delete any of YOUR frameworks (these are all from 3rd parties, not Apple). None of these are necessary.
 $ rm -R Library/Frameworks
 
