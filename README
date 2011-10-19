@@ -49,6 +49,7 @@ If you are copying from Mac with scp, skip to CONTINUE PREPARE YOUR PREFIX WITH 
 Download the DMG from Apple for Xcode, any version. You need to have the following:
 - Linux kernel built with HFS+ file system driver
 - Catacombae DMGExtractor (requires Java) http://sourceforge.net/projects/catacombae/
+  - Gentoo users: I have an ebuild and prefix: https://github.com/tatsh/tatsh-overlay and once installed, simply run: emerge app-arch/dmgextractor to get this
 - p7zip
 - xar
 - cpio
