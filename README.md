@@ -355,7 +355,16 @@ Follow the above instructions but rather than 10.7 or 10.6 SDK, copy the iOS 4.3
     export TARGET="arm-apple-darwin"
     export PREFIX="/usr/$TARGET"
 
-Build cctools and ld64. Do not build GCC. Instead build LLVM as described above but.
+Build cctools and ld64. Do not build GCC. Instead build LLVM as described above.
+
+cctools for Gentoo the easy way (as root, example amd64 architecture):
+
+    export OVERLAY="/usr/tatsh-overlay" # or where you want it
+    git clone git://github.com/tatsh/tatsh-overlay.git $OVERLAY
+    echo "$PORTDIR_OVERLAY=\"\$PORTDIR_OVERLAY $OVERLAY\"" >> /etc/make.conf
+    eix-update # optional, only if you have eix installed
+    echo 'cross-arm-apple-darwin/cctools ~amd64' >> /etc/portage/package.keywords
+    emerge cross-arm-apple-darwin/cctools
 
 The difference comes in building LLVM GCC. Use LLVM-GCC from Apple's site, apply the patches as described, but build with the following arguments to `./configure` (note lack of `-m32`):
 
