@@ -37,7 +37,7 @@ In ~/.bashrc or similar you may want:
 
 If you don't have a Mac, skip this and read 'Prepare your prefix (no Mac)'. Even if you have a Mac, the no-Mac method is cleaner than using scp but not as easy.
 
-You will need a copy of an SDK directory to begin. You can choose any version past 10.4u really but I suppose only if you need new things in Lion would copy Lion (and that requires Lion itself of course). I expect that you are doing most development on the Mac anyway so therefore your compiler settings in Xcode will decide support level.
+You will need a copy of an SDK directory to begin. You can choose any version past 10.4u really but I suppose only if you need new things in Lion would copy Lion's SDK (and that requires Lion itself of course). I expect that you are doing most development on the Mac anyway so therefore your compiler settings in Xcode will decide support level.
 
     mkdir $PREFIX/SDKs
     cd $PREFIX/SDKs
@@ -60,7 +60,7 @@ Download the DMG from Apple for Xcode, any version. You need to have the followi
 
 * Linux kernel built with HFS+ file system driver
 * Catacombae DMGExtractor (requires Java) http://sourceforge.net/projects/catacombae/
-  * Gentoo users: I have an ebuild and prefix: https://github.com/tatsh/tatsh-overlay and once installed, simply run: emerge app-arch/dmgextractor to get this
+  * Gentoo users: I have an ebuild and prefix: https://github.com/tatsh/tatsh-overlay and once installed, simply run: `emerge app-arch/dmgextractor` to get this
 * p7zip
 * xar
 * cpio
