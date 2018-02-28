@@ -2926,42 +2926,42 @@ ObjectFile::Reader* Linker::createReader(const Options::FileInfo& info)
 	switch (fArchitecture) {
 		case CPU_TYPE_POWERPC:
 			if ( mach_o::relocatable::Reader<ppc>::validFile(p) )
-				return this->addObject(new typename mach_o::relocatable::Reader<ppc>::Reader(p, info.path, info.modTime, fOptions.readerOptions(), fNextInputOrdinal), info, len);
+				return this->addObject(new mach_o::relocatable::Reader<ppc>::Reader(p, info.path, info.modTime, fOptions.readerOptions(), fNextInputOrdinal), info, len);
 			else if ( mach_o::dylib::Reader<ppc>::validFile(p, info.options.fBundleLoader) )
-				return this->addDylib(new typename mach_o::dylib::Reader<ppc>::Reader(p, len, info.path, info.options, fOptions.readerOptions(), fNextInputOrdinal), info, len);
+				return this->addDylib(new mach_o::dylib::Reader<ppc>::Reader(p, len, info.path, info.options, fOptions.readerOptions(), fNextInputOrdinal), info, len);
 			else if ( archive::Reader<ppc>::validFile(p, len) )
-				return this->addArchive(new typename archive::Reader<ppc>::Reader(p, len, info.path, info.modTime, fOptions.readerOptions(), fNextInputOrdinal), info, len);
+				return this->addArchive(new archive::Reader<ppc>::Reader(p, len, info.path, info.modTime, fOptions.readerOptions(), fNextInputOrdinal), info, len);
 			break;
 		case CPU_TYPE_POWERPC64:
 			if ( mach_o::relocatable::Reader<ppc64>::validFile(p) )
-				return this->addObject(new typename mach_o::relocatable::Reader<ppc64>::Reader(p, info.path, info.modTime, fOptions.readerOptions(), fNextInputOrdinal), info, len);
+				return this->addObject(new mach_o::relocatable::Reader<ppc64>::Reader(p, info.path, info.modTime, fOptions.readerOptions(), fNextInputOrdinal), info, len);
 			else if ( mach_o::dylib::Reader<ppc64>::validFile(p, info.options.fBundleLoader) )
-				return this->addDylib(new typename mach_o::dylib::Reader<ppc64>::Reader(p, len, info.path, info.options, fOptions.readerOptions(), fNextInputOrdinal), info, len);
+				return this->addDylib(new mach_o::dylib::Reader<ppc64>::Reader(p, len, info.path, info.options, fOptions.readerOptions(), fNextInputOrdinal), info, len);
 			else if ( archive::Reader<ppc64>::validFile(p, len) )
-				return this->addArchive(new typename archive::Reader<ppc64>::Reader(p, len, info.path, info.modTime, fOptions.readerOptions(), fNextInputOrdinal), info, len);
+				return this->addArchive(new archive::Reader<ppc64>::Reader(p, len, info.path, info.modTime, fOptions.readerOptions(), fNextInputOrdinal), info, len);
 			break;
 		case CPU_TYPE_I386:
 			if ( mach_o::relocatable::Reader<x86>::validFile(p) )
-				return this->addObject(new typename mach_o::relocatable::Reader<x86>::Reader(p, info.path, info.modTime, fOptions.readerOptions(), fNextInputOrdinal), info, len);
+				return this->addObject(new mach_o::relocatable::Reader<x86>::Reader(p, info.path, info.modTime, fOptions.readerOptions(), fNextInputOrdinal), info, len);
 			else if ( mach_o::dylib::Reader<x86>::validFile(p, info.options.fBundleLoader) )
-				return this->addDylib(new typename mach_o::dylib::Reader<x86>::Reader(p, len, info.path, info.options, fOptions.readerOptions(), fNextInputOrdinal), info, len);
+				return this->addDylib(new mach_o::dylib::Reader<x86>::Reader(p, len, info.path, info.options, fOptions.readerOptions(), fNextInputOrdinal), info, len);
 			else if ( archive::Reader<x86>::validFile(p, len) )
-				return this->addArchive(new typename archive::Reader<x86>::Reader(p, len, info.path, info.modTime, fOptions.readerOptions(), fNextInputOrdinal), info, len);
+				return this->addArchive(new archive::Reader<x86>::Reader(p, len, info.path, info.modTime, fOptions.readerOptions(), fNextInputOrdinal), info, len);
 			break;
 		case CPU_TYPE_X86_64:
 			if ( mach_o::relocatable::Reader<x86_64>::validFile(p) )
-				return this->addObject(new typename mach_o::relocatable::Reader<x86_64>::Reader(p, info.path, info.modTime, fOptions.readerOptions(), fNextInputOrdinal), info, len);
+				return this->addObject(new mach_o::relocatable::Reader<x86_64>::Reader(p, info.path, info.modTime, fOptions.readerOptions(), fNextInputOrdinal), info, len);
 			else if ( mach_o::dylib::Reader<x86_64>::validFile(p, info.options.fBundleLoader) )
-				return this->addDylib(new typename mach_o::dylib::Reader<x86_64>::Reader(p, len, info.path, info.options, fOptions.readerOptions(), fNextInputOrdinal), info, len);
+				return this->addDylib(new mach_o::dylib::Reader<x86_64>::Reader(p, len, info.path, info.options, fOptions.readerOptions(), fNextInputOrdinal), info, len);
 			else if ( archive::Reader<x86_64>::validFile(p, len) )
-				return this->addArchive(new typename archive::Reader<x86_64>::Reader(p, len, info.path, info.modTime, fOptions.readerOptions(), fNextInputOrdinal), info, len);
+				return this->addArchive(new archive::Reader<x86_64>::Reader(p, len, info.path, info.modTime, fOptions.readerOptions(), fNextInputOrdinal), info, len);
 		case CPU_TYPE_ARM:
 			if ( mach_o::relocatable::Reader<arm>::validFile(p) )
-				return this->addObject(new typename mach_o::relocatable::Reader<arm>::Reader(p, info.path, info.modTime, fOptions.readerOptions(), fNextInputOrdinal), info, len);
+				return this->addObject(new mach_o::relocatable::Reader<arm>::Reader(p, info.path, info.modTime, fOptions.readerOptions(), fNextInputOrdinal), info, len);
 			else if ( mach_o::dylib::Reader<arm>::validFile(p, info.options.fBundleLoader) )
-				return this->addDylib(new typename mach_o::dylib::Reader<arm>::Reader(p, len, info.path, info.options, fOptions.readerOptions(), fNextInputOrdinal), info, len);
+				return this->addDylib(new mach_o::dylib::Reader<arm>::Reader(p, len, info.path, info.options, fOptions.readerOptions(), fNextInputOrdinal), info, len);
 			else if ( archive::Reader<arm>::validFile(p, len) )
-				return this->addArchive(new typename archive::Reader<arm>::Reader(p, len, info.path, info.modTime, fOptions.readerOptions(), fNextInputOrdinal), info, len);
+				return this->addArchive(new archive::Reader<arm>::Reader(p, len, info.path, info.modTime, fOptions.readerOptions(), fNextInputOrdinal), info, len);
 			break;
 			break;
 	}
