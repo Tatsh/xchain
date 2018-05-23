@@ -1,1 +1,2 @@
-theme: jekyll-theme-modernist
+theme: jekyll-theme-hacker
+exclude: [cmake-ios-example, odcctools-9.2-ld, patches]
